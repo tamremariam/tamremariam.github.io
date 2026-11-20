@@ -35,29 +35,40 @@
       float disk = exp(-r / .4), armR = smoothstep(.05, .2, r) * smoothstep(1., .5, r);
       float bulge = exp(-r*r / .0022) * .85 + exp(-r*r / .014) * .4 + exp(-r*r / .08) * .14;
       vec2 sc = vec2(ph / 6.2831853 * 28., log(rw) * 4.);                    // spiral coords: x across arms, y along them
-      float cl = fbm(p * 13.), fib = fbp(sc, 28.);
-      arm *= .5 + .8 * fib;                                                 // fibres stretched along the arms
+      float cl = fbm(p * 13.), fib = fbp(sc * vec2(1., 2.4), 28.);
+      arm *= .45 + .9 * mix(fib, fbm(w * 9. + 2.4), .45);                   // short clumpy fibres, not long streaks
       float knots = smoothstep(.7, .86, fbm(p * 64. + 3.)) * pow(c, 3.) * armR * (.5 + fib); // many small HII knots
-      float win = smoothstep(.06, .2, r) * smoothstep(.95, .35, r);
-      float lane = pow(.5 + .5 * cos(2. * ph + .75), 14.);                   // thin dust lane on the inner edge of each arm
-      float dust = lane * win * (.35 + .9 * fbp(sc * vec2(1., 1.6) + vec2(0., 7.), 28.));
-      dust += smoothstep(.56, .8, fbp(sc * vec2(1., 2.) + vec2(5., 11.), 28.)) * .55 * win; // feathery lanes along the arms
       vec3 warm = vec3(1., .84, .62), blue = vec3(.62, .76, 1.), core = vec3(1., .95, .86);
       vec3 col = mix(warm, core, smoothstep(.15, 0., r)) * bulge;
       vec3 armCol = mix(warm, blue, smoothstep(.1, .42, r));
       col += armCol * disk * (.18 + 1.7 * arm * armR * (.55 + .9 * cl));
       col += warm * disk * .22 * armSoft;
-      col += vec3(.78, .88, 1.) * knots * (disk + .2) * 6.5;
-      col *= 1. - clamp(dust * .95, 0., .75);
-      col += vec3(.32, .17, .07) * dust * disk * .35;                         // brownish lanes
+      vec2 sq = floor(vUv * RES * .8);
+      col += step(.94, h(sq + 5.)) * .22 * (disk * 2. + arm * .8) * h(sq + 9.) * vec3(.95, .92, .88); // fine stellar grain (sits behind the dust)
+
+      // ---- dust: optical depth tau, made of broken lanes, feathers, flocculent patches and nuclear wisps
+      float win = smoothstep(.03, .16, r) * smoothstep(.98, .42, r);
+      float lane = pow(.5 + .5 * cos(2. * ph + .75), 9.);                    // lane on the inner (concave) edge of each arm
+      float tau = lane * smoothstep(.22, .62, fbm(w * 11. + 4.1)) * (.5 + 1.7 * fbp(sc * vec2(1., 2.6) + vec2(0., 7.), 28.));
+      float fe = fbp(vec2(sc.x + sc.y * 3., sc.y * 2.) + vec2(5., 11.), 28.);   // feathers shearing out across the arms
+      tau += smoothstep(.56, .8, fe) * .95 * (.25 + .75 * pow(.5 + .5 * cos(2. * ph + .45), 2.));
+      tau += smoothstep(.6, .86, fbm(p * 21. + 7.3)) * .55;                 // flocculent patches
+      tau += smoothstep(.64, .9, fbm(p * 46. + 2.2)) * .4;                   // small globules
+      float inner = smoothstep(.015, .06, r) * smoothstep(.24, .07, r);       // wisps spiralling into the bulge
+      tau += inner * pow(.5 + .5 * cos(2. * ph + 1.2 + 2.2 * fbm(p * 9.)), 5.) * 1.3;
+      tau *= win * smoothstep(1., .35, r) * (.75 + .5 * fbm(p * 4. + 3.3));      // thins out toward the rim
+      vec3 ext = exp(-tau * vec3(1.05, 1.4, 1.95));                          // extinction reddens the light, it does not just black it out
+      float lit = clamp(disk * 2.2 + bulge * 1.5, 0., 1.);
+      col = col * ext + vec3(.34, .18, .08) * (1. - ext.g) * lit * .28;      // warm scattered light inside the lanes
+
+      col += vec3(.78, .88, 1.) * knots * (disk + .2) * 6.5 * mix(1., ext.b, .6);
       vec2 sp = floor(vUv * RES * .5);
       float st = step(.9975, h(sp)) * smoothstep(1., .15, r) * (.4 + .6 * h(sp + 3.));
-      vec2 sq = floor(vUv * RES * .8);
-      st += step(.94, h(sq + 5.)) * .22 * (disk * 2. + arm * .8) * h(sq + 9.);     // fine stellar grain
-      col += st * mix(vec3(1., .85, .6), vec3(.8, .9, 1.), h(sp + 7.));          // resolved stars
+      col += st * mix(vec3(1., .85, .6), vec3(.8, .9, 1.), h(sp + 7.));          // foreground resolved stars
       col = 1. - exp(-col * 1.6);                                            // filmic tone map: no blown-out core
-      col *= smoothstep(1., .78, r);
-      gl_FragColor = vec4(col, 1.);
+      float edge = smoothstep(1., .78, r);
+      // alpha = dust coverage: the disk shader uses it to occlude what is behind, the stars use it to dim themselves
+      gl_FragColor = vec4(col * edge, (1. - ext.g) * lit * edge);
     }`;
 
   class Galaxy {
@@ -67,7 +78,7 @@
     static ARM_SHIFT = .45;      // aligns particles with the shader's brightest arm ridge
     /** -1 = clockwise seen from above, so the arms trail behind the rotation like a real spiral galaxy */
     static SPIN_DIR = -1;
-    static TILT = { x: .5, z: .12 };
+    static TILT = { x: .62, z: .12 };   // the disk sits above the camera, so it needs extra lean not to look squashed flat
     static LIFT = 2.45;
 
     /**
@@ -92,7 +103,7 @@
       this.scene.add(this.group);
       this.uniforms = {
         uT: { value: 0 }, uSize: { value: (this.small ? 12 : 15) * this.dpr },
-        uWarp: { value: 0 }, uMap: { value: this.bakeDisk() }, uFade: { value: 1 }
+        uWarp: { value: 0 }, uMap: { value: this.bakeDisk() }, uFade: { value: 1 }, uH: { value: Galaxy.H }
       };
 
       this.buildDisk();
@@ -163,11 +174,12 @@
       const H = Galaxy.H;
       const disk = new THREE.Mesh(new THREE.PlaneGeometry(H * 2, H * 2), new THREE.ShaderMaterial({
         uniforms: this.uniforms, transparent: true, depthWrite: false, side: THREE.DoubleSide,
-        // pure additive (ONE, ONE) with luminance as alpha: black stays fully see-through on the transparent canvas
-        blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.OneFactor, blendDstAlpha: THREE.OneFactor,
+        // premultiplied "over": light adds, dust (texture alpha) partly hides what is behind it instead of leaving see-through holes
+        blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor, blendSrcAlpha: THREE.OneFactor, blendDstAlpha: THREE.OneMinusSrcAlphaFactor,
         vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
         fragmentShader: `uniform sampler2D uMap; uniform float uWarp, uFade; varying vec2 vUv;
-          void main(){ vec3 c = texture2D(uMap, vUv).rgb * (1. + uWarp * .5) * uFade; gl_FragColor = vec4(c, max(c.r, max(c.g, c.b))); }`
+          void main(){ vec4 t = texture2D(uMap, vUv); vec3 c = t.rgb * (1. + uWarp * .5) * uFade;
+            gl_FragColor = vec4(c, max(max(c.r, max(c.g, c.b)) * .85, t.a * .55 * uFade)); }`
       }));
       disk.rotation.x = -Math.PI / 2;
       disk.renderOrder = 1;
@@ -226,12 +238,17 @@
       geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
       const stars = new THREE.Points(geo, new THREE.ShaderMaterial({
         uniforms: this.uniforms, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-        vertexShader: `uniform float uSize, uWarp, uFade; attribute float aSize; varying vec3 vC;
+        defines: this.renderer.capabilities.maxVertexTextures > 0 ? { DUST: 1 } : {},
+        vertexShader: `uniform float uSize, uWarp, uFade, uH; uniform sampler2D uMap; attribute float aSize; varying vec3 vC;
           void main(){
             vec4 mv = modelViewMatrix * vec4(position, 1.);
             gl_Position = projectionMatrix * mv;
             gl_PointSize = min(uSize * aSize * (1. + uWarp * .6) / max(-mv.z, .001), uSize * .6); // capped: no giant blobs up close
             vC = color * (1. + uWarp * .5) * uFade;
+            #ifdef DUST // stars in the disk plane sit inside the dust: dim and redden them by the baked dust coverage
+              float d = texture2DLod(uMap, vec2(position.x, -position.z) / (2. * uH) + .5, 2.).a * smoothstep(.3, .04, abs(position.y));
+              vC *= mix(vec3(1.), vec3(.6, .38, .25), d * .8);
+            #endif
           }`,
         fragmentShader: STAR_FRAG
       }));
