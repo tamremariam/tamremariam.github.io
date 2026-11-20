@@ -4,21 +4,60 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<title>Tamremariam Belete</title>
+	<title>Tamremariam Belete – Flutter &amp; Full Stack Developer | Mobile App Developer</title>
 	<meta name="description"
-		content="Tamremariam Belete, full stack developer building mobile apps, web apps and backends. Flutter apps for iOS and Android, web apps, and Node.js, Go and Firebase services, including StarPay and Mela Check.">
-	<meta property="og:title" content="Tamremariam Belete · Full Stack Developer: Mobile, Web &amp; Backend">
+		content="Flutter &amp; full stack developer in Addis Ababa. I build iOS &amp; Android apps and backends for fintech and e-commerce, 60K+ downloads. Hire me on Upwork.">
+	<meta name="author" content="Tamremariam Belete">
+	<link rel="canonical" href="https://tamremariambelete.netlify.app/">
+	<meta property="og:site_name" content="Tamremariam Belete">
+	<meta property="og:title" content="Tamremariam Belete – Flutter &amp; Full Stack Developer">
 	<meta property="og:description"
-		content="Mobile apps, web apps and backends, used by tens of thousands of people across fintech, e-commerce, marketplaces and mobility.">
+		content="I build and ship Flutter apps for iOS &amp; Android, plus the backends behind them. Fintech, e-commerce and ride-sharing, 60K+ downloads.">
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://tamremariam.github.io/">
-	<meta property="og:image" content="https://tamremariam.github.io/images/tamremariam-og.jpg">
-	<meta name="twitter:card" content="summary">
+	<meta property="og:url" content="https://tamremariambelete.netlify.app/">
+	<meta property="og:image" content="https://tamremariambelete.netlify.app/images/tamremariam-og.jpg">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt"
+		content="Tamremariam Belete, Flutter and Full Stack Developer. 60K+ downloads, 7 apps built, 4+ years.">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Tamremariam Belete – Flutter &amp; Full Stack Developer">
+	<meta name="twitter:description"
+		content="I build and ship Flutter apps for iOS &amp; Android, plus the backends behind them. 60K+ downloads.">
+	<meta name="twitter:image" content="https://tamremariambelete.netlify.app/images/tamremariam-og.jpg">
+	<meta name="twitter:image:alt"
+		content="Tamremariam Belete, Flutter and Full Stack Developer. 60K+ downloads, 7 apps built, 4+ years.">
 	<meta name="theme-color" content="#040a24">
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Tamremariam Belete",
+		"jobTitle": "Flutter & Full Stack Developer",
+		"url": "https://tamremariambelete.netlify.app/",
+		"image": "https://tamremariambelete.netlify.app/images/tamremariam.webp",
+		"description": "Flutter and full stack developer building iOS and Android apps and the backends behind them for fintech, e-commerce and ride-sharing.",
+		"address": { "@type": "PostalAddress", "addressLocality": "Addis Ababa", "addressCountry": "ET" },
+		"worksFor": { "@type": "Organization", "name": "EagleLion System Technology" },
+		"alumniOf": { "@type": "CollegeOrUniversity", "name": "Haramaya University" },
+		"knowsAbout": ["Flutter", "Dart", "Firebase", "REST APIs", "Clean Architecture", "Mobile app development"],
+		"sameAs": [
+			"https://www.upwork.com/freelancers/~016a2888dfbdc4ee9a",
+			"https://github.com/tamremariam",
+			"https://www.linkedin.com/in/tamremariambelete/"
+		]
+	}
+	</script>
 	<link rel="icon" type="image/png" href="images/tticon.png">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="stylesheet"
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+	<link rel="stylesheet" media="print" onload="this.media='all'"
 		href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+	<noscript>
+		<link rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+	</noscript>
 	<style>
 		/* Layout: deep-navy space; a glossy 3D ring is the hero centerpiece, sections float as glass panels with a section index on the left and orbit dots on the right. Single dark theme by choice. */
 		:root {
@@ -53,7 +92,8 @@
 		}
 
 		html {
-			scroll-behavior: smooth
+			scroll-behavior: smooth;
+			overflow-x: clip
 		}
 
 		body {
@@ -316,17 +356,27 @@
 		}
 
 		.rail-r a {
+			width: 24px;
+			height: 24px;
+			display: block;
+			position: relative
+		}
+
+		.rail-r a::before {
+			content: "";
+			position: absolute;
+			left: 50%;
+			top: 50%;
 			width: 9px;
 			height: 9px;
+			margin: -4.5px 0 0 -4.5px;
 			border-radius: 50%;
 			background: var(--navy);
 			border: 1px solid var(--mute);
-			display: block;
-			position: relative;
 			transition: .3s
 		}
 
-		.rail-r a.on {
+		.rail-r a.on::before {
 			border-color: var(--gold);
 			background: var(--gold);
 			box-shadow: 0 0 12px var(--gold);
@@ -335,7 +385,7 @@
 
 		.rail-r a span {
 			position: absolute;
-			right: 20px;
+			right: 28px;
 			top: 50%;
 			transform: translateY(-50%);
 			font: 500 10px var(--mono);
@@ -458,24 +508,18 @@
 
 		.kicker {
 			font: 400 14px var(--body);
-			letter-spacing: .6em;
+			letter-spacing: .5em;
 			text-transform: uppercase;
 			color: var(--ink);
-			height: 1.4em;
-			overflow: hidden;
-			margin-right: -.6em
-		}
-
-		.kicker span {
-			display: block;
-			animation: kick .6s cubic-bezier(.2, .8, .2, 1)
+			margin: 0 -.5em 0 0;
+			animation: kick .8s cubic-bezier(.2, .8, .2, 1)
 		}
 
 		@keyframes kick {
 			from {
-				transform: translateY(100%);
+				transform: translateY(40%);
 				opacity: 0;
-				letter-spacing: 1.2em
+				letter-spacing: 1em
 			}
 
 			to {
@@ -484,8 +528,68 @@
 			}
 		}
 
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip: rect(0 0 0 0);
+			white-space: nowrap
+		}
+
+		.proof {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 6px 10px;
+			list-style: none;
+			margin: 6px 0 0;
+			padding: 0;
+			font: 500 12px var(--mono);
+			letter-spacing: .06em;
+			color: var(--ink)
+		}
+
+		.proof li+li::before {
+			content: "·";
+			color: var(--gold);
+			margin-right: 10px
+		}
+
+		.proof b {
+			color: var(--peach);
+			font-weight: 500
+		}
+
+		.ghost {
+			font: 600 11px var(--body);
+			letter-spacing: .18em;
+			text-transform: uppercase;
+			color: var(--mute);
+			background: none;
+			border: 0;
+			padding: 10px 6px;
+			cursor: pointer;
+			text-decoration: underline;
+			text-underline-offset: 4px
+		}
+
+		.ghost:hover {
+			color: var(--gold)
+		}
+
+		.todo {
+			font: 500 11px var(--mono);
+			color: #ffd27a;
+			border: 1px dashed rgba(255, 210, 122, .6);
+			border-radius: 6px;
+			padding: 1px 7px;
+			background: rgba(255, 210, 122, .08);
+			letter-spacing: .02em
+		}
+
 		h1 {
-			font: 400 clamp(36px, 8vw, 100px)/.95 var(--display);
+			font: 400 clamp(32px, 6.2vw, 84px)/1 var(--display);
 			margin: 0;
 			letter-spacing: .01em;
 			text-transform: uppercase;
@@ -521,7 +625,7 @@
 		}
 
 		.lead {
-			max-width: 52ch;
+			max-width: 60ch;
 			color: var(--mute);
 			margin: 8px auto 0;
 			text-wrap: balance
@@ -561,13 +665,18 @@
 		}
 
 		.btn.prime {
-			background: linear-gradient(120deg, var(--blue), var(--rose) 60%, var(--peach));
+			background: linear-gradient(120deg, #2f5fe0, #c8326d);
 			border: 0;
 			color: #fff
 		}
 
 		.btn.prime:hover {
 			box-shadow: 0 0 40px rgba(255, 111, 159, .45)
+		}
+
+		.btn.sm {
+			padding: 10px 18px;
+			font-size: 11px
 		}
 
 		.btn::before {
@@ -720,8 +829,7 @@
 		}
 
 		.reveal.pre {
-			transform: translateY(30px);
-			opacity: .3
+			transform: translateY(30px)
 		}
 
 		/* about */
@@ -907,6 +1015,8 @@
 		}
 
 		.idlinks a {
+			padding: 6px 2px;
+			display: inline-block;
 			color: var(--gold);
 			text-decoration: none;
 			border-bottom: 1px solid currentColor
@@ -957,7 +1067,7 @@
 		/* services */
 		.services {
 			display: grid;
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 			gap: 18px
 		}
 
@@ -1020,6 +1130,18 @@
 			margin: 0
 		}
 
+		.svc .grow {
+			display: inline-block;
+			font: 500 10px var(--mono);
+			letter-spacing: .12em;
+			text-transform: uppercase;
+			color: var(--peach);
+			border: 1px solid rgba(255, 179, 138, .45);
+			border-radius: 999px;
+			padding: 2px 9px;
+			margin-top: 12px
+		}
+
 		.svc .n {
 			position: absolute;
 			right: 18px;
@@ -1040,11 +1162,8 @@
 			flex-direction: column;
 			justify-content: flex-start;
 			overflow: hidden;
-			cursor: pointer;
 			transition: transform .5s cubic-bezier(.2, .8, .2, 1), border-color .4s;
 			text-align: left;
-			color: inherit;
-			font: inherit;
 			padding: 0;
 			width: 100%
 		}
@@ -1171,28 +1290,43 @@
 			border: 1px solid var(--line)
 		}
 
-		.proj .art .open {
-			position: absolute;
+		.proj .art .tag.live {
+			left: auto;
 			right: 18px;
-			bottom: 16px;
-			width: 46px;
-			height: 46px;
-			border-radius: 50%;
-			display: grid;
-			place-items: center;
-			background: var(--ink);
-			color: var(--navy);
-			transform: scale(0) rotate(-45deg);
-			transition: transform .4s cubic-bezier(.2, .8, .2, 1);
-			font-size: 20px
-		}
-
-		.proj:hover .open {
-			transform: scale(1) rotate(0)
+			color: #8ff0c0
 		}
 
 		.proj .body {
-			padding: 22px 24px 26px
+			padding: 22px 24px 26px;
+			display: flex;
+			flex-direction: column;
+			flex: 1
+		}
+
+		.proj .dl {
+			font: 500 12px var(--mono);
+			color: var(--peach);
+			letter-spacing: .06em;
+			margin: 0 0 10px
+		}
+
+		.proj .role {
+			font-size: 14px;
+			color: var(--ink)
+		}
+
+		.proj p b,
+		.case h4 {
+			color: var(--gold);
+			font-weight: 600
+		}
+
+		.actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: auto;
+			padding-top: 18px
 		}
 
 		.proj h3 {
@@ -1202,8 +1336,12 @@
 
 		.proj p {
 			color: var(--mute);
-			margin: 0 0 14px;
+			margin: 0 0 10px;
 			font-size: 15px
+		}
+
+		.proj .chips {
+			margin-top: 4px
 		}
 
 		.chips {
@@ -1232,12 +1370,14 @@
 			background: rgba(2, 5, 20, .75);
 			backdrop-filter: blur(8px);
 			opacity: 0;
+			visibility: hidden;
 			pointer-events: none;
-			transition: opacity .3s
+			transition: opacity .3s, visibility .3s
 		}
 
 		.modal.open {
 			opacity: 1;
+			visibility: visible;
 			pointer-events: auto
 		}
 
@@ -1300,34 +1440,33 @@
 			padding-left: 18px
 		}
 
-		.metrics {
+		.case {
 			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 12px;
+			gap: 16px;
 			margin: 18px 0
 		}
 
-		.metrics div {
-			padding: 14px;
-			border-radius: 14px;
-			border: 1px solid var(--line);
-			text-align: center
+		.case h4 {
+			font: 600 11px var(--body);
+			letter-spacing: .25em;
+			text-transform: uppercase;
+			margin: 0 0 4px
 		}
 
-		.metrics b {
-			display: block;
-			font: 400 26px var(--display);
-			color: var(--peach)
+		.case p {
+			margin: 0;
+			color: var(--mute)
 		}
 
-		.metrics span {
-			font-size: 11px;
-			color: var(--mute);
-			letter-spacing: .08em;
-			text-transform: uppercase
+		.modal .role {
+			color: var(--ink);
+			margin: 0
 		}
 
 		.close {
+			display: grid;
+			place-items: center;
+			text-decoration: none;
 			position: absolute;
 			right: 14px;
 			top: 14px;
@@ -1417,6 +1556,18 @@
 			margin-bottom: 10px
 		}
 
+		.job ul {
+			color: var(--mute);
+			margin: 0;
+			padding-left: 18px;
+			max-width: 72ch;
+			font-size: 15px
+		}
+
+		.job li+li {
+			margin-top: 4px
+		}
+
 		.job p {
 			color: var(--mute);
 			margin: 0;
@@ -1502,50 +1653,26 @@
 			margin-bottom: 22px
 		}
 
-		.sbar {
-			margin-bottom: 18px
+		.sgrp {
+			margin-bottom: 22px
 		}
 
-		.sbar .l {
-			display: flex;
-			justify-content: space-between;
-			font-size: 14px;
-			margin-bottom: 8px
+		.sgrp h4 {
+			font: 600 11px var(--body);
+			letter-spacing: .25em;
+			text-transform: uppercase;
+			color: var(--gold);
+			margin: 0 0 10px
 		}
 
-		.sbar .l b {
-			font: 500 13px var(--mono);
-			color: var(--peach);
-			font-variant-numeric: tabular-nums
+		.sgrp.learn h4 {
+			color: var(--peach)
 		}
 
-		.sbar .t {
-			height: 6px;
-			border-radius: 6px;
-			background: rgba(255, 255, 255, .07);
-			overflow: hidden
-		}
-
-		.sbar .f {
-			height: 100%;
-			width: var(--w);
-			border-radius: 6px;
-			background: linear-gradient(90deg, var(--blue), var(--rose), var(--peach));
-			transition: width 1.4s cubic-bezier(.2, .8, .2, 1);
-			position: relative
-		}
-
-		.sbar .f::after {
-			content: "";
-			position: absolute;
-			right: 0;
-			top: 50%;
-			width: 12px;
-			height: 12px;
-			border-radius: 50%;
-			background: #fff;
-			transform: translate(50%, -50%);
-			box-shadow: 0 0 12px var(--peach)
+		.sgrp p {
+			margin: 10px 0 0;
+			color: var(--mute);
+			font-size: 14px
 		}
 
 		.traits {
@@ -1701,19 +1828,32 @@
 		}
 
 		.dots button {
-			width: 8px;
-			height: 8px;
-			border-radius: 8px;
+			width: 24px;
+			height: 24px;
 			border: 0;
-			background: var(--mute);
-			opacity: .4;
+			background: none;
 			cursor: pointer;
-			transition: .3s;
-			padding: 0
+			padding: 0;
+			position: relative
 		}
 
-		.dots button.on {
+		.dots button::before {
+			content: "";
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: 8px;
+			height: 8px;
+			margin: -4px 0 0 -4px;
+			border-radius: 8px;
+			background: var(--mute);
+			opacity: .4;
+			transition: .3s
+		}
+
+		.dots button.on::before {
 			width: 28px;
+			margin-left: -14px;
 			opacity: 1;
 			background: var(--gold)
 		}
@@ -1724,6 +1864,32 @@
 			grid-template-columns: 1fr 1.1fr;
 			gap: 28px;
 			align-items: start
+		}
+
+		.cta {
+			text-align: center;
+			padding: 48px 28px;
+			margin-bottom: 28px;
+			display: grid;
+			justify-items: center;
+			gap: 6px
+		}
+
+		.cta h2 {
+			max-width: 20ch;
+			margin: 0 0 6px
+		}
+
+		.cta .avail {
+			margin-bottom: 8px
+		}
+
+		.cta .hours {
+			font: 500 12px var(--mono);
+			color: var(--mute);
+			letter-spacing: .04em;
+			max-width: 60ch;
+			margin: 14px 0 0
 		}
 
 		.cinfo {
@@ -1771,6 +1937,10 @@
 			letter-spacing: .2em;
 			color: var(--mute);
 			text-transform: uppercase
+		}
+
+		.crow a {
+			overflow-wrap: anywhere
 		}
 
 		.crow span {
@@ -1972,12 +2142,12 @@
 		}
 
 		@media (max-width:1000px) {
-			.services {
-				grid-template-columns: repeat(2, 1fr)
-			}
-
 			.about {
 				grid-template-columns: 1fr
+			}
+
+			.services {
+				grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
 			}
 
 			.rail-l,
@@ -2059,6 +2229,37 @@
 			.services {
 				grid-template-columns: 1fr
 			}
+
+			.kicker {
+				letter-spacing: .3em;
+				margin-right: -.3em;
+				font-size: 12px
+			}
+
+			.btns .btn {
+				width: 100%;
+				justify-content: center
+			}
+
+			.proj .art {
+				height: 210px
+			}
+
+			.proj .body {
+				padding: 20px 18px 22px
+			}
+
+			.cta {
+				padding: 36px 18px
+			}
+
+			.modal {
+				padding: 10px
+			}
+
+			.modal .in {
+				padding: 20px 18px
+			}
 		}
 
 		@media (prefers-reduced-motion:reduce) {
@@ -2097,15 +2298,15 @@
 	<div class="cur" id="cur" aria-hidden="true"></div>
 	<div class="cur-dot" id="curDot" aria-hidden="true"></div>
 
-	<nav id="nav">
+	<nav id="nav" aria-label="Main">
 		<div class="wrap">
 			<ul class="l" id="navL">
-				<li><a href="#about">About</a></li>
 				<li><a href="#work">Work</a></li>
-				<li><a href="#journey">Journey</a></li>
+				<li><a href="#services">Services</a></li>
+				<li><a href="#journey">Experience</a></li>
 			</ul>
-			<a class="mono-logo" href="#top" aria-label="Back to top">
-				<svg viewBox="0 0 40 40">
+			<a class="mono-logo" href="#top" aria-label="TB, back to top">
+				<svg viewBox="0 0 40 40" aria-hidden="true">
 					<defs>
 						<linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
 							<stop offset="0" stop-color="#4d82ff" />
@@ -2120,10 +2321,11 @@
 			</a>
 			<ul class="r" id="navR">
 				<li><a href="#skills">Skills</a></li>
-				<li><a href="#approach">Approach</a></li>
+				<li><a href="#about">About</a></li>
 				<li><a href="#contact">Contact</a></li>
 			</ul>
-			<button class="menu-btn" id="menuBtn" type="button" aria-expanded="false">MENU</button>
+			<button class="menu-btn" id="menuBtn" type="button" aria-expanded="false"
+				aria-controls="navL navR">MENU</button>
 		</div>
 		<div id="progress"></div>
 	</nav>
@@ -2135,23 +2337,27 @@
 		<!-- nebula disabled for now (see js/space/nebula.js to bring it back)
     <canvas id="nebula" aria-hidden="true"></canvas>
     -->
-		<canvas id="ring" aria-label="Interactive 3D spiral galaxy. Drag to spin it."></canvas>
+		<canvas id="ring" role="img" aria-label="Interactive 3D spiral galaxy. Drag to spin it."></canvas>
 		<div class="hero-copy wrap">
-			<div class="avail"><i></i>Available for work</div>
-			<div class="kicker" id="kicker"><span>Full stack</span></div>
-			<h1 id="name">Tamremariam Belete</h1>
-			<div class="subtitle">Full Stack Developer · Mobile, Web &amp; Backend</div>
-			<p class="lead">I build complete products: Flutter mobile apps for iOS and Android, web apps, and the
-				RESTful and GraphQL APIs
-				and backends behind them with Node.js, Go and Firebase. I've shipped products for fintech, e-commerce,
-				grocery, marketplace and ride-sharing, used by local and international users.</p>
+			<div class="avail"><i></i>Available for freelance work</div>
+			<p class="kicker">Tamremariam Belete · Addis Ababa</p>
+			<h1 id="name">Flutter &amp; Full Stack Developer</h1>
+			<p class="lead">I build and ship mobile apps for iOS &amp; Android — plus the web dashboards and backends
+				behind them.</p>
+			<ul class="proof" aria-label="Track record">
+				<li><b>60K+</b> downloads</li>
+				<li><b>7</b> apps built</li>
+				<li><b>4+</b> years</li>
+				<li>Fintech, e-commerce, ride-sharing</li>
+			</ul>
 			<div class="btns">
-				<a class="btn prime" href="#work">View work →</a>
-				<a class="btn" href="download/Tamremariam-Belete-Resume.pdf" download>Download CV</a>
-				<a class="btn" href="https://www.linkedin.com/in/tamremariambelete/" target="_blank"
-					rel="noopener">LinkedIn</a>
-				<a class="btn" href="https://github.com/tamremariam" target="_blank" rel="noopener">GitHub</a>
-				<button class="btn" id="warp" type="button">Hyperdrive</button>
+				<a class="btn prime" href="https://www.upwork.com/freelancers/~016a2888dfbdc4ee9a" target="_blank"
+					rel="noopener">Hire me on Upwork ↗</a>
+				<a class="btn" href="#work">View my work</a>
+			</div>
+			<div class="btns" style="margin-top:0">
+				<a class="ghost" href="download/Tamremariam-Belete-Resume.pdf" download>Download CV</a>
+				<button class="ghost" id="warp" type="button">Hyperdrive</button>
 			</div>
 		</div>
 		<div class="drag-hint">Drag the galaxy · hold Space to warp</div>
@@ -2163,38 +2369,368 @@
 	</div>
 
 	<main>
+		<section id="work" class="wrap reveal" data-name="Work">
+			<div class="eyebrow">Selected works</div>
+			<h2>Apps I've <em>built</em></h2>
+			<p class="sub">Live apps on Google Play and the App Store, plus my own projects. Open a case study to see
+				the
+				problem, what I built, the tech and the result.</p>
+			<div class="projects" id="projects">
+				<article class="proj glass" id="mela-check" style="--h1:160;--h2:40">
+					<div class="art">
+						<div class="shots"><img src="images/apps/melacheck-1.webp"
+								alt="Mela Check login screen with email or phone and password fields" width="403"
+								height="640" loading="lazy" decoding="async"><img src="images/apps/melacheck-2.webp"
+								alt="Mela Check employees screen showing team members and their active status"
+								width="359" height="581" loading="lazy" decoding="async"><img
+								src="images/apps/melacheck-3.webp"
+								alt="Mela Check transactions screen listing verified bank transfers" width="363"
+								height="579" loading="lazy" decoding="async"></div><span class="tag">Fintech</span><span
+							class="tag live">● LIVE</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><img class="appico" src="images/apps/melacheck-icon.webp"
+								alt="Mela Check app icon" width="48" height="48" loading="lazy" decoding="async">
+							<h3>Mela Check</h3>
+						</div>
+						<p class="dl">10K+ downloads on Google Play</p>
+						<p><b>Problem:</b> Businesses that accept bank transfers can be shown fake payment receipts.</p>
+						<p><b>What I built:</b> A Flutter app that verifies bank payment receipts so a sale is only
+							confirmed against a real transfer, with notifications.</p>
+						<p class="role"><b>My role:</b> Mobile app developer, backend developer and admin dashboard
+							developer.</p>
+						<div class="chips"><span>Flutter</span><span>Dart</span><span>REST
+								APIs</span><span>Notifications</span><span>Backend</span><span>Admin dashboard</span>
+						</div>
+						<div class="actions"><a class="btn sm prime"
+								href="https://play.google.com/store/apps/details?id=com.dave.melacheck_app"
+								target="_blank" rel="noopener">Google Play ↗</a><a class="btn sm"
+								href="#case-mela-check" data-case aria-label="Read the Mela Check case study">Case study
+								→</a></div>
+					</div>
+				</article>
+				<article class="proj glass" id="starpay" style="--h1:220;--h2:35">
+					<div class="art">
+						<div class="shots"><img src="images/apps/starpay-1.webp"
+								alt="StarPay home screen showing total revenue, merchant ID and payment services"
+								width="296" height="640" loading="lazy" decoding="async"><img
+								src="images/apps/starpay-2.webp"
+								alt="StarPay marketing screen listing payment options: USSD, OTP, reference and link, in-app request"
+								width="296" height="640" loading="lazy" decoding="async"><img
+								src="images/apps/starpay-3.webp"
+								alt="StarPay sales statistics screen with transaction amount, count and an earnings chart"
+								width="296" height="640" loading="lazy" decoding="async"></div><span class="tag">Fintech
+							· EagleLion</span><span class="tag live">● LIVE</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><img class="appico" src="images/apps/starpay-icon.webp"
+								alt="StarPay Ethiopia app icon" width="48" height="48" loading="lazy" decoding="async">
+							<h3>StarPay Ethiopia</h3>
+						</div>
+
+						<p><b>Problem:</b> Businesses and customers in Ethiopia needed one place to pay and get paid
+							across many banks and mobile wallets.</p>
+						<p><b>What I built:</b> A Flutter fintech app that works with 10 Ethiopian banks and mobile
+							wallets, with merchant tracking and instant confirmations.</p>
+						<p class="role"><b>My role:</b> Flutter Mobile Application Developer at EagleLion System
+							Technology.</p>
+						<div class="chips"><span>Flutter</span><span>Dart</span><span>Clean
+								Architecture</span><span>REST APIs</span></div>
+						<div class="actions"><a class="btn sm prime"
+								href="https://play.google.com/store/apps/details?id=com.eaglelionsystems.starpay"
+								target="_blank" rel="noopener">Google Play ↗</a><a class="btn sm" href="#case-starpay"
+								data-case aria-label="Read the StarPay Ethiopia case study">Case study →</a></div>
+					</div>
+				</article>
+				<article class="proj glass" id="oont" style="--h1:270;--h2:180">
+					<div class="art">
+						<div class="shots"><img src="images/apps/oont-1.webp"
+								alt="OoNt home screen with services such as grocery and meals and a cashback banner"
+								width="360" height="640" loading="lazy" decoding="async"><img
+								src="images/apps/oont-2.webp"
+								alt="OoNt store screen listing grocery products with prices and stock status"
+								width="360" height="640" loading="lazy" decoding="async"><img
+								src="images/apps/oont-3.webp"
+								alt="OoNt product details screen for a milk product with price and quantity selector"
+								width="360" height="640" loading="lazy" decoding="async"></div><span class="tag">Grocery
+							&amp; multi-service · UK client</span><span class="tag live">● LIVE</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><img class="appico" src="images/apps/oont-icon.webp" alt="OoNt app icon"
+								width="48" height="48" loading="lazy" decoding="async">
+							<h3>OoNt</h3>
+						</div>
+
+						<p><b>Problem:</b> A UK client's live grocery and multi-service app had performance problems and
+							critical bugs in its existing codebase.</p>
+						<p><b>What I built:</b> I worked on the Flutter app and on the Node.js and Firebase backend
+							behind it. Live on both stores.</p>
+						<p class="role"><b>My role:</b> Flutter developer and backend developer, working remotely with a
+							UK team.</p>
+						<div class="chips">
+							<span>Flutter</span><span>Provider</span><span>Node.js</span><span>Firebase</span>
+						</div>
+						<div class="actions"><a class="btn sm prime"
+								href="https://play.google.com/store/apps/details?id=com.oont.oontapp" target="_blank"
+								rel="noopener">Google Play ↗</a><a class="btn sm prime"
+								href="https://apps.apple.com/gb/app/oont-saving-you-time-money/id6473649131"
+								target="_blank" rel="noopener">App Store ↗</a><a class="btn sm" href="#case-oont"
+								data-case aria-label="Read the OoNt case study">Case study →</a></div>
+					</div>
+				</article>
+				<article class="proj glass" id="kcm-marketplace" style="--h1:130;--h2:60">
+					<div class="art">
+						<div class="mono"><b>KM</b><small>No longer listed on Google Play</small></div><span
+							class="tag">Commodities · Kegeberew</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><span class="appico" aria-hidden="true">KM</span>
+							<h3>KCM Marketplace</h3>
+						</div>
+
+						<p><b>Problem:</b> A marketplace connecting commodity buyers and sellers needed location
+							features and payments, and had bugs hurting stability.</p>
+						<p><b>What I built:</b> I added geolocation and payment integration and fixed key bugs, using
+							Bloc and GetIt.</p>
+						<p class="role"><b>My role:</b> Flutter Mobile Application Developer at Kegeberew Technology
+							Solutions.</p>
+						<div class="chips">
+							<span>Flutter</span><span>Bloc</span><span>GetIt</span><span>Maps</span><span>Payments</span>
+						</div>
+						<div class="actions"><a class="btn sm" href="#case-kcm-marketplace" data-case
+								aria-label="Read the KCM Marketplace case study">Case study →</a></div>
+					</div>
+				</article>
+				<article class="proj glass" id="china2africa" style="--h1:350;--h2:20">
+					<div class="art">
+						<div class="mono"><b>C</b><small>Screens on request</small></div><span class="tag">E-commerce ·
+							Kegeberew</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><span class="appico" aria-hidden="true">C</span>
+							<h3>China2Africa</h3>
+						</div>
+
+						<p><b>Problem:</b> An e-commerce app needed a smooth shopping experience with product and order
+							data that updates in real time.</p>
+						<p><b>What I built:</b> I built the app from the first screen, with real-time GraphQL data, Bloc
+							state management and GetIt dependency injection.</p>
+						<p class="role"><b>My role:</b> Flutter Mobile Application Developer at Kegeberew Technology
+							Solutions.</p>
+						<div class="chips"><span>Flutter</span><span>GraphQL</span><span>Bloc</span><span>GetIt</span>
+						</div>
+						<div class="actions"><a class="btn sm" href="#case-china2africa" data-case
+								aria-label="Read the China2Africa case study">Case study →</a></div>
+					</div>
+				</article>
+				<article class="proj glass" id="meheja" style="--h1:200;--h2:300">
+					<div class="art">
+						<div class="mono"><b>MR</b><small>Demo on request</small></div><span class="tag">Personal · Full
+							stack</span>
+					</div>
+					<div class="body">
+						<div class="ptitle"><span class="appico" aria-hidden="true">MR</span>
+							<h3>Meheja Ride Sharing</h3>
+						</div>
+
+						<p><b>Problem:</b> A ride-sharing flow needs routes, prices, live navigation and payments to
+							work together.</p>
+						<p><b>What I built:</b> My own full-stack project: route calculation, fare estimates, live
+							navigation and payments, built with Flutter and Firebase.</p>
+						<p class="role"><b>My role:</b> Full-Stack Developer. Solo personal project (Oct – Dec 2023):
+							Flutter app and Firebase backend.</p>
+						<div class="chips">
+							<span>Flutter</span><span>Firebase</span><span>Maps</span><span>Payments</span>
+						</div>
+						<div class="actions"><a class="btn sm" href="#case-meheja" data-case
+								aria-label="Read the Meheja Ride Sharing case study">Case study →</a></div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section id="services" class="wrap reveal" data-name="Services">
+			<div class="eyebrow">What I do</div>
+			<h2>How I can <em>help</em></h2>
+			<p class="sub">Whether you are starting from an idea or have an app that needs to be finished or fixed, I
+				can take it
+				from code to the stores.</p>
+			<div class="services" id="svcs">
+				<article class="svc glass"><span class="n">01</span>
+					<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+							<rect x="7" y="2" width="10" height="20" rx="2" />
+							<path d="M11 18h2" />
+						</svg></div>
+					<h3>Mobile apps</h3>
+					<p>Flutter apps for iOS and Android from one codebase, with clean architecture, and publishing to
+						Google Play and the App Store.</p>
+				</article>
+				<article class="svc glass"><span class="n">02</span>
+					<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+							<path
+								d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.7 2.7-2.3-.7-.7-2.3z" />
+						</svg></div>
+					<h3>Fix &amp; finish existing apps</h3>
+					<p>Bug fixing, taking over unfinished or inherited code, and performance work, so your app is ready
+						to ship.</p>
+				</article>
+				<article class="svc glass"><span class="n">03</span>
+					<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="12" cy="5" r="2" />
+							<circle cx="5" cy="19" r="2" />
+							<circle cx="19" cy="19" r="2" />
+							<path d="M12 7v5M12 12l-6 5M12 12l6 5" />
+						</svg></div>
+					<h3>Backends &amp; APIs</h3>
+					<p>Node.js and Firebase backends, with REST and GraphQL APIs, authentication and push notifications.
+					</p>
+				</article>
+				<article class="svc glass"><span class="n">04</span>
+					<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+							<rect x="3" y="4" width="18" height="16" rx="2" />
+							<path d="M3 9h18M9 9v11" />
+						</svg></div>
+					<h3>Web dashboards &amp; admin panels</h3>
+					<p>Admin panels and dashboards for your app, built with React / Next.js. Best for clearly scoped
+						projects.</p>
+					<span class="grow">Growing skill</span>
+				</article>
+				<article class="svc glass"><span class="n">05</span>
+					<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+							<rect x="2" y="5" width="20" height="14" rx="2" />
+							<path d="M2 10h20M6 15h4" />
+						</svg></div>
+					<h3>Payments &amp; fintech integrations</h3>
+					<p>Bank and mobile-wallet payments, receipt verification and transaction flows, as in StarPay and
+						Mela Check.</p>
+				</article>
+			</div>
+		</section>
+
+		<section id="journey" class="wrap reveal" data-name="Experience">
+			<div class="eyebrow">Experience</div>
+			<h2>Where I've <em>worked</em></h2>
+			<p class="sub">The line fills as you scroll through each role.</p>
+			<div class="timeline" id="timeline">
+				<div class="rod"><i id="rod"></i></div>
+				<article class="job glass">
+					<div class="top"><span class="when">Feb 2025 — Now</span></div>
+					<h3>Flutter Mobile Application Developer</h3>
+					<div class="org">EagleLion System Technology · Current
+
+					</div>
+					<ul>
+						<li>Built StarPay, a live fintech app to pay and get paid with 10 Ethiopian banks and mobile
+							wallets.</li>
+						<li>Use clean architecture so payment apps stay maintainable, and explain technical ideas to
+							non-technical stakeholders.</li>
+					</ul>
+				</article>
+				<article class="job glass">
+					<div class="top"><span class="when">Oct 2024 — May 2025</span></div>
+					<h3>Flutter &amp; Backend Developer</h3>
+					<div class="org">OoNt · Remote, UK client</div>
+					<ul>
+						<li>Improved performance and fixed critical bugs in a live grocery app on iOS and Android.</li>
+						<li>Used Provider for state, with Firebase and Node.js services behind it.</li>
+					</ul>
+				</article>
+				<article class="job glass">
+					<div class="top"><span class="when">Oct 2024 — Jan 2025</span></div>
+					<h3>Flutter Developer</h3>
+					<div class="org">Etech</div>
+					<ul>
+						<li>Debugged and improved existing codebases and integrated RESTful APIs.</li>
+						<li>Moved state management to Bloc for better responsiveness and stability.</li>
+					</ul>
+				</article>
+				<article class="job glass">
+					<div class="top"><span class="when">Apr 2024 — Oct 2024</span></div>
+					<h3>Flutter Developer</h3>
+					<div class="org">Kegeberew Technology Solutions</div>
+					<ul>
+						<li>Built the China2Africa e-commerce app from scratch (Jul – Oct 2024), with real-time GraphQL
+							data.</li>
+						<li>Added geolocation and payments to KCM Marketplace (Apr – Jun 2024) and fixed key bugs, using
+							Bloc, Provider and GetIt.</li>
+					</ul>
+				</article>
+				<article class="job glass">
+					<div class="top"><span class="when">2022 — 2023</span></div>
+					<h3>Self-taught builder</h3>
+					<div class="org">Personal projects</div>
+					<ul>
+						<li>Ethiopian Famous People (Jun – Aug 2022): a bilingual Amharic and English biography app,
+							built alone in Java.</li>
+						<li>Meheja ride-sharing (Oct – Dec 2023): built end to end with Flutter and Firebase.</li>
+					</ul>
+				</article>
+			</div>
+		</section>
+
+		<section id="skills" class="wrap reveal" data-name="Skills">
+			<div class="eyebrow">Expertise &amp; skills</div>
+			<h2>What I <em>work with</em></h2>
+			<div class="skills">
+				<div class="glass">
+					<h3>Technical</h3>
+					<div class="cap">HONEST SKILL MAP</div>
+					<div class="sgrp">
+						<h4>Core</h4>
+						<div class="chips"><span>Flutter</span><span>Dart</span><span>Firebase</span><span>REST
+								APIs</span><span>Clean Architecture</span><span>Bloc /
+								Provider</span><span>Payments</span><span>Store publishing</span></div>
+					</div>
+					<div class="sgrp">
+						<h4>Also work with</h4>
+						<div class="chips"><span>Node.js</span><span>GraphQL</span><span>React /
+								Next.js</span><span>Java</span></div>
+					</div>
+					<div class="sgrp learn">
+						<h4>Currently learning</h4>
+						<div class="chips"><span>Go</span></div>
+					</div>
+				</div>
+				<div class="glass">
+					<h3>Professional traits</h3>
+					<div class="cap">CLICK A TRAIT</div>
+					<div class="traits" id="traits"></div>
+					<div id="traitTxt">Pick a trait to see how it shows up in my work.</div>
+				</div>
+			</div>
+		</section>
+
 		<section id="about" class="wrap reveal" data-name="About">
 			<div class="about">
 				<div class="idwrap">
-					<div class="idcard" id="idcard" tabindex="0" role="button"
-						aria-label="ID card. Click to flip, drag to tilt.">
+					<div class="idcard" id="idcard" tabindex="0" role="button">
 						<div class="face front">
 							<div class="holo"></div>
 							<div class="idtop">
 								<div class="chip"></div><small>CREW · ID</small>
 							</div>
 							<div class="avatar">
-								<img src="images/tamremariam.webp" alt="Tamremariam Belete" width="106" height="106"
-									decoding="async">
+								<img src="images/tamremariam.webp" alt="Portrait of Tamremariam Belete" width="106"
+									height="106" loading="lazy" decoding="async">
 							</div>
 							<div class="idname">Tamremariam Belete</div>
-							<div class="idrole">Full Stack Developer</div>
+							<div class="idrole">Flutter &amp; Full Stack Developer</div>
 							<dl class="idgrid">
 								<div>
 									<dt>SPECIALTY</dt>
-									<dd>Mobile · Web · API</dd>
+									<dd>Mobile · APIs</dd>
 								</div>
 								<div>
 									<dt>CORE STACK</dt>
-									<dd>Flutter · Node · Go</dd>
+									<dd>Flutter · Dart · Firebase</dd>
 								</div>
 								<div>
-									<dt>APPS SHIPPED</dt>
-									<dd>7+</dd>
+									<dt>APPS BUILT</dt>
+									<dd>7</dd>
 								</div>
 								<div>
 									<dt>STATUS</dt>
-									<dd style="color:#8ff0c0">● Open to work</dd>
+									<dd style="color:#8ff0c0">● Freelance-ready</dd>
 								</div>
 							</dl>
 							<div class="idfoot"><span>TB-0965-FS</span><span>ORBIT/OS</span></div>
@@ -2202,11 +2738,13 @@
 						<div class="face back">
 							<div class="holo"></div>
 							<small class="hint">Scan to open my portfolio</small>
-							<a class="qr" id="qr" href="https://tamremariam.github.io/" target="_blank" rel="noopener"
-								aria-label="QR code linking to tamremariam.github.io"></a>
+							<a class="qr" id="qr" href="https://tamremariambelete.netlify.app/" target="_blank"
+								rel="noopener" aria-label="QR code linking to tamremariambelete.netlify.app"></a>
 							<div>
-								<div class="idname" style="font-size:17px">tamremariam.github.io</div>
+								<div class="idname" style="font-size:17px">tamremariambelete.netlify.app</div>
 								<div class="idlinks">
+									<a href="https://www.upwork.com/freelancers/~016a2888dfbdc4ee9a" target="_blank"
+										rel="noopener">Upwork</a>
 									<a href="https://github.com/tamremariam" target="_blank" rel="noopener">GitHub</a>
 									<a href="https://www.linkedin.com/in/tamremariambelete/" target="_blank"
 										rel="noopener">LinkedIn</a>
@@ -2220,55 +2758,25 @@
 				<div>
 					<div class="eyebrow">About me</div>
 					<h2>Self-taught, now <em>shipping</em> to thousands</h2>
-					<p>I'm a full stack developer working across mobile apps, web apps and backends. I build
-						high-quality,
-						secure apps for iOS and Android, web apps, and the APIs and services that connect them. I
-						started teaching myself
-						to code at university, then sharpened those skills on real products alongside experienced teams
-						at four
+					<p>I'm a Flutter and full stack developer based in Addis Ababa, Ethiopia. I build secure,
+						high-quality apps for
+						iOS and Android, and the APIs and backends that connect them. I started teaching myself to code
+						at
+						university, then sharpened those skills on real products alongside experienced teams at four
 						companies.</p>
-					<p>My work spans many industries: fintech apps like StarPay and Mela Check, a grocery and savings
-						app, e-commerce, a commodities marketplace and a ride-sharing platform. Today I'm at EagleLion
-						System Technology. I care about clean architecture, sensible state
-						management and
-						interfaces that feel smooth on every phone.</p>
+					<p>My work spans fintech apps like StarPay and Mela Check, a grocery app for a UK client,
+						e-commerce, a
+						commodities marketplace and a ride-sharing app. Today I'm at EagleLion System Technology. I care
+						about clean
+						architecture, sensible state management and interfaces that feel smooth on every phone.</p>
 					<div class="stats">
 						<div class="stat"><b data-to="60" data-suf="K+">60K+</b><span>Downloads, StarPay &amp; Mela
-								Check</span>
-						</div>
+								Check</span></div>
 						<div class="stat"><b data-to="7" data-suf="">7</b><span>Apps built</span></div>
 						<div class="stat"><b data-to="4" data-suf="">4</b><span>Companies</span></div>
-						<div class="stat"><b data-to="5" data-suf="+">5+</b><span>Industries</span>
-						</div>
+						<div class="stat"><b data-to="4" data-suf="+">4+</b><span>Years of experience</span></div>
 					</div>
 				</div>
-			</div>
-		</section>
-
-		<section id="services" class="wrap reveal" data-name="Services">
-			<div class="eyebrow">What I do</div>
-			<h2>Mobile, web and backend, <em>one developer</em></h2>
-			<p class="sub">I take care of the whole product, so the app, the website and the server are built to work
-				together from day one.
-			</p>
-			<div class="services" id="svcs"></div>
-		</section>
-
-		<section id="work" class="wrap reveal" data-name="Work">
-			<div class="eyebrow">Selected works</div>
-			<h2>Apps I've <em>built</em></h2>
-			<p class="sub">Live apps on Google Play and the App Store, plus my own projects. Click one to see what I
-				built and
-				open its store page.</p>
-			<div class="projects" id="projects"></div>
-		</section>
-
-		<section id="journey" class="wrap reveal" data-name="Journey">
-			<div class="eyebrow">Career journey</div>
-			<h2>From self-taught to <em>production</em></h2>
-			<p class="sub">The line fills as you scroll through each role.</p>
-			<div class="timeline" id="timeline">
-				<div class="rod"><i id="rod"></i></div>
 			</div>
 		</section>
 
@@ -2282,7 +2790,7 @@
 					<ul>
 						<li>Studied systems analysis, databases, networking and software development</li>
 						<li>Taught myself mobile development alongside my degree</li>
-						<li>Shipped my first published-style app while still a student</li>
+						<li>Built my first mobile apps while still a student</li>
 					</ul>
 				</div>
 				<div class="deg glass"><span class="badge">Self-taught</span>
@@ -2297,53 +2805,43 @@
 			</div>
 		</section>
 
-		<section id="skills" class="wrap reveal" data-name="Skills">
-			<div class="eyebrow">Expertise &amp; skills</div>
-			<h2>The technical <em>arsenal</em></h2>
-			<div class="skills">
-				<div class="glass">
-					<h3>Technical</h3>
-					<div class="cap">PROFICIENCY</div>
-					<div id="bars"></div>
-				</div>
-				<div class="glass">
-					<h3>Professional traits</h3>
-					<div class="cap">CLICK A TRAIT</div>
-					<div class="traits" id="traits"></div>
-					<div id="traitTxt">Pick a trait to see how it shows up in my work.</div>
-					<div class="learner"><b>Always learning</b><span>Currently going deeper on Go backends, modern web
-							apps and app performance profiling.</span></div>
-				</div>
-			</div>
-		</section>
-
 		<section id="approach" class="wrap reveal" data-name="Approach">
 			<div class="eyebrow">How I work</div>
 			<h2>Principles I <em>build</em> by</h2>
 			<div class="tcar glass">
 				<span class="q" aria-hidden="true">“</span>
 				<div class="tslides" id="tslides"></div>
-				<div class="tnav"><button class="arr" id="tPrev" type="button" aria-label="Previous">←</button>
+				<div class="tnav"><button class="arr" id="tPrev" type="button"
+						aria-label="Previous principle">←</button>
 					<div class="dots" id="tdots"></div><button class="arr" id="tNext" type="button"
-						aria-label="Next">→</button>
+						aria-label="Next principle">→</button>
 				</div>
 			</div>
 		</section>
 
 		<section id="contact" class="wrap reveal" data-name="Contact">
-			<div class="eyebrow">Let's connect</div>
-			<h2>Have a <em>mission</em> in mind?</h2>
+			<div class="cta glass">
+				<div class="avail"><i></i>Available for freelance work</div>
+				<h2>Have an app idea or a project that needs finishing? <em>Let's talk.</em></h2>
+				<div class="btns">
+					<a class="btn prime" href="https://www.upwork.com/freelancers/~016a2888dfbdc4ee9a" target="_blank"
+						rel="noopener">Hire me on Upwork ↗</a>
+					<a class="btn" href="mailto:ethiotamremariam@gmail.com">Email me</a>
+					<a class="btn" href="https://www.linkedin.com/in/tamremariambelete/" target="_blank"
+						rel="noopener">LinkedIn</a>
+				</div>
+				<p class="hours">Addis Ababa (UTC+3) — overlaps with UK/EU working hours and US mornings</p>
+			</div>
 			<div class="contact">
 				<div>
-					<p class="sub" style="margin-bottom:20px">I'm open to full stack roles and freelance projects across
-						mobile, web and backend. Reach out
-						and I'll reply quickly.</p>
+					<h2 style="font-size:clamp(26px,3.4vw,38px)">Or send a message</h2>
+					<p class="sub" style="margin-bottom:20px">Tell me what you are building and where you are stuck.
+						I'll reply quickly.</p>
 					<a class="btn" href="download/Tamremariam-Belete-Resume.pdf" download
-						style="margin-bottom:20px">Download CV
-						↓</a>
+						style="margin-bottom:20px">Download CV ↓</a>
 					<div class="cinfo">
 						<div class="crow">
-							<div class="ic"><svg viewBox="0 0 24 24">
+							<div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">
 									<rect x="3" y="5" width="18" height="14" rx="2" />
 									<path d="m3 7 9 6 9-6" />
 								</svg></div>
@@ -2351,22 +2849,15 @@
 								type="button" data-copy="cEmail">Copy</button>
 						</div>
 						<div class="crow">
-							<div class="ic"><svg viewBox="0 0 24 24">
-									<path
-										d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
-								</svg></div>
-							<div><small>Phone</small><span id="cPhone">+251 965 905 097</span></div><button
-								type="button" data-copy="cPhone">Copy</button>
-						</div>
-						<div class="crow">
-							<div class="ic"><svg viewBox="0 0 24 24">
+							<div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">
 									<path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" />
 									<circle cx="12" cy="9" r="2.5" />
 								</svg></div>
-							<div><small>Availability</small><span>Open to remote and on-site work</span></div>
+							<div><small>Location &amp; hours</small><span>Addis Ababa (UTC+3), remote freelance</span>
+							</div>
 						</div>
 						<div class="crow">
-							<div class="ic"><svg viewBox="0 0 24 24">
+							<div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">
 									<path d="M4 4h16v16H4z" />
 									<path d="M8 10v6M8 7v.5M12 16v-6M12 12.5c0-1.5 1-2.5 2.5-2.5S16 11 16 12.5V16" />
 								</svg></div>
@@ -2374,7 +2865,7 @@
 									target="_blank" rel="noopener">in/tamremariambelete</a></div>
 						</div>
 						<div class="crow">
-							<div class="ic"><svg viewBox="0 0 24 24">
+							<div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">
 									<path
 										d="M9 19c-4 1.5-4-2-6-2.5m12 5v-3.5a3 3 0 0 0-1-2.5c3 0 6-1.5 6-6.5a5 5 0 0 0-1.5-3.5 4.5 4.5 0 0 0 0-3.5s-1.2-.3-3.8 1.5a13 13 0 0 0-7 0C5.2 1.7 4 2 4 2a4.5 4.5 0 0 0 0 3.5A5 5 0 0 0 2.5 9c0 5 3 6.5 6 6.5a3 3 0 0 0-1 2.5V22" />
 								</svg></div>
@@ -2384,36 +2875,300 @@
 					</div>
 				</div>
 				<form id="form" class="glass" novalidate>
-					<div class="field"><input id="fName" placeholder=" " required><label for="fName">Your name</label>
+					<div class="field"><input id="fName" name="name" autocomplete="name" placeholder=" " required><label
+							for="fName">Your name</label>
 					</div>
-					<div class="field"><input id="fMail" type="email" placeholder=" " required><label for="fMail">Your
-							email</label></div>
-					<div class="field"><textarea id="fMsg" rows="5" placeholder=" " required></textarea><label
-							for="fMsg">Message</label></div>
+					<div class="field"><input id="fMail" name="email" type="email" autocomplete="email" placeholder=" "
+							required><label for="fMail">Your email</label></div>
+					<div class="field"><textarea id="fMsg" name="message" rows="5" placeholder=" "
+							required></textarea><label for="fMsg">Message</label></div>
 					<button class="btn prime" type="submit" style="justify-content:center">Send message</button>
-					<div id="status" aria-live="polite"></div>
+					<div id="status" role="status" aria-live="polite"></div>
 				</form>
 			</div>
 		</section>
 	</main>
 
 	<footer>
-		<div class="big">Tamremariam</div>© 2026 Tamremariam Belete · Full stack developer (mobile, web &amp; backend)
+		<div class="big" aria-hidden="true">Tamremariam</div>© 2026 Tamremariam Belete · Flutter &amp; Full Stack
+		Developer · Addis Ababa, Ethiopia
 	</footer>
 
-	<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-		<div class="box glass"><button class="close" id="mClose" type="button" aria-label="Close">✕</button>
-			<div id="mArt" class="mart"></div>
-			<div class="in">
-				<div class="eyebrow" id="mTag"></div>
-				<div class="ptitle" id="mHead">
-					<h3 id="mTitle"></h3>
+	<!-- Case studies: plain HTML, so the text is readable and indexable. Opened by the "Case study" links (also works as #case-... deep links). -->
+	<div class="modal" id="case-mela-check" role="dialog" aria-modal="true" aria-labelledby="case-mela-check-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart" style="--h1:160;--h2:40"><img src="images/apps/melacheck-1.webp"
+					alt="Mela Check login screen with email or phone and password fields" width="403" height="640"
+					loading="lazy" decoding="async"><img src="images/apps/melacheck-2.webp"
+					alt="Mela Check employees screen showing team members and their active status" width="359"
+					height="581" loading="lazy" decoding="async"><img src="images/apps/melacheck-3.webp"
+					alt="Mela Check transactions screen listing verified bank transfers" width="363" height="579"
+					loading="lazy" decoding="async"></div>
+			<div class="in" style="--h1:160;--h2:40">
+				<div class="eyebrow">Case study · Fintech</div>
+				<div class="ptitle"><img class="appico" src="images/apps/melacheck-icon.webp" alt="Mela Check app icon"
+						width="48" height="48" loading="lazy" decoding="async">
+					<h3 id="case-mela-check-t">Mela Check</h3>
 				</div>
-				<p id="mDesc" style="color:var(--mute)"></p>
-				<div class="metrics" id="mMetrics"></div>
-				<ul id="mList"></ul>
-				<div class="chips" id="mChips"></div>
-				<div class="btns" id="mLinks" style="justify-content:flex-start;margin-top:20px"></div>
+				<p class="role"><b>My role:</b> Mobile app developer, backend developer and admin dashboard developer.
+				</p>
+
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>Businesses that accept bank transfers can be shown fake payment receipts.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Receipt verification with instant results and history</li>
+							<li>Customer records, team members and agent management</li>
+							<li>Reports, analytics and push alerts</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips"><span>Flutter</span><span>Dart</span><span>REST
+								APIs</span><span>Notifications</span><span>Backend</span><span>Admin dashboard</span>
+						</div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>Live on Google Play with 10K+ downloads. Businesses use it to check that a bank payment is
+							real before handing over goods.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><a class="btn sm prime"
+						href="https://play.google.com/store/apps/details?id=com.dave.melacheck_app" target="_blank"
+						rel="noopener">Google Play ↗</a></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="case-starpay" role="dialog" aria-modal="true" aria-labelledby="case-starpay-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart" style="--h1:220;--h2:35"><img src="images/apps/starpay-1.webp"
+					alt="StarPay home screen showing total revenue, merchant ID and payment services" width="296"
+					height="640" loading="lazy" decoding="async"><img src="images/apps/starpay-2.webp"
+					alt="StarPay marketing screen listing payment options: USSD, OTP, reference and link, in-app request"
+					width="296" height="640" loading="lazy" decoding="async"><img src="images/apps/starpay-3.webp"
+					alt="StarPay sales statistics screen with transaction amount, count and an earnings chart"
+					width="296" height="640" loading="lazy" decoding="async"></div>
+			<div class="in" style="--h1:220;--h2:35">
+				<div class="eyebrow">Case study · Fintech · EagleLion</div>
+				<div class="ptitle"><img class="appico" src="images/apps/starpay-icon.webp"
+						alt="StarPay Ethiopia app icon" width="48" height="48" loading="lazy" decoding="async">
+					<h3 id="case-starpay-t">StarPay Ethiopia</h3>
+				</div>
+				<p class="role"><b>My role:</b> Flutter Mobile Application Developer at EagleLion System Technology.</p>
+
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>Businesses and customers in Ethiopia needed one place to pay and get paid across many banks
+							and mobile wallets.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Cross-platform build for iOS and Android with clean architecture</li>
+							<li>Payment flows for banks including CBE, Dashen and Awash, and wallets like Telebirr and
+								M-Pesa</li>
+							<li>Merchant transaction tracking, reports and instant confirmations</li>
+							<li>Bloc state management and GetIt dependency injection, with encryption and secure API
+								communication</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips"><span>Flutter</span><span>Dart</span><span>Clean
+								Architecture</span><span>REST APIs</span></div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>Live on Google Play. Pay and get paid with 10 Ethiopian banks and mobile wallets. Together
+							with Mela Check it has passed 60K+ downloads.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><a class="btn sm prime"
+						href="https://play.google.com/store/apps/details?id=com.eaglelionsystems.starpay"
+						target="_blank" rel="noopener">Google Play ↗</a></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="case-oont" role="dialog" aria-modal="true" aria-labelledby="case-oont-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart" style="--h1:270;--h2:180"><img src="images/apps/oont-1.webp"
+					alt="OoNt home screen with services such as grocery and meals and a cashback banner" width="360"
+					height="640" loading="lazy" decoding="async"><img src="images/apps/oont-2.webp"
+					alt="OoNt store screen listing grocery products with prices and stock status" width="360"
+					height="640" loading="lazy" decoding="async"><img src="images/apps/oont-3.webp"
+					alt="OoNt product details screen for a milk product with price and quantity selector" width="360"
+					height="640" loading="lazy" decoding="async"></div>
+			<div class="in" style="--h1:270;--h2:180">
+				<div class="eyebrow">Case study · Grocery &amp; multi-service · UK client</div>
+				<div class="ptitle"><img class="appico" src="images/apps/oont-icon.webp" alt="OoNt app icon" width="48"
+						height="48" loading="lazy" decoding="async">
+					<h3 id="case-oont-t">OoNt</h3>
+				</div>
+				<p class="role"><b>My role:</b> Flutter developer and backend developer, working remotely with a UK
+					team.</p>
+
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>A UK client's live grocery and multi-service app had performance problems and critical bugs
+							in its existing codebase.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Improved performance and fixed critical bugs in an existing codebase</li>
+							<li>Provider state management for a scalable app flow</li>
+							<li>Firebase and Node.js services for a production-ready system</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips">
+							<span>Flutter</span><span>Provider</span><span>Node.js</span><span>Firebase</span>
+						</div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>Live on both Google Play and the App Store.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><a class="btn sm prime"
+						href="https://play.google.com/store/apps/details?id=com.oont.oontapp" target="_blank"
+						rel="noopener">Google Play ↗</a><a class="btn sm prime"
+						href="https://apps.apple.com/gb/app/oont-saving-you-time-money/id6473649131" target="_blank"
+						rel="noopener">App Store ↗</a></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="case-kcm-marketplace" role="dialog" aria-modal="true"
+		aria-labelledby="case-kcm-marketplace-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart empty" style="--h1:130;--h2:60">
+				<div class="mono"><b>KM</b></div>
+			</div>
+			<div class="in" style="--h1:130;--h2:60">
+				<div class="eyebrow">Case study · Commodities · Kegeberew</div>
+				<div class="ptitle"><span class="appico" aria-hidden="true">KM</span>
+					<h3 id="case-kcm-marketplace-t">KCM Marketplace</h3>
+				</div>
+				<p class="role"><b>My role:</b> Flutter Mobile Application Developer at Kegeberew Technology Solutions.
+				</p>
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>A marketplace connecting commodity buyers and sellers needed location features and payments,
+							and had bugs hurting stability.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Added geolocation features</li>
+							<li>Integrated payments into the purchase flow</li>
+							<li>Resolved key bugs to improve overall stability</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips">
+							<span>Flutter</span><span>Bloc</span><span>GetIt</span><span>Maps</span><span>Payments</span>
+						</div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>Delivered geolocation and payment integration and resolved key bugs during Apr – Jun 2024.
+							The app is no longer listed on Google Play.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><span class="hint">No longer listed on Google
+						Play</span></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="case-china2africa" role="dialog" aria-modal="true" aria-labelledby="case-china2africa-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart empty" style="--h1:350;--h2:20">
+				<div class="mono"><b>C</b></div>
+			</div>
+			<div class="in" style="--h1:350;--h2:20">
+				<div class="eyebrow">Case study · E-commerce · Kegeberew</div>
+				<div class="ptitle"><span class="appico" aria-hidden="true">C</span>
+					<h3 id="case-china2africa-t">China2Africa</h3>
+				</div>
+				<p class="role"><b>My role:</b> Flutter Mobile Application Developer at Kegeberew Technology Solutions.
+				</p>
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>An e-commerce app needed a smooth shopping experience with product and order data that
+							updates in real time.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Designed and built the full app from the first screen</li>
+							<li>Real-time product and order data with GraphQL</li>
+							<li>Bloc state management with GetIt dependency injection</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips"><span>Flutter</span><span>GraphQL</span><span>Bloc</span><span>GetIt</span>
+						</div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>Built from scratch between July and October 2024, delivering an e-commerce app with real-time
+							GraphQL data.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><span class="hint">Screens on request</span></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="case-meheja" role="dialog" aria-modal="true" aria-labelledby="case-meheja-t">
+		<div class="box glass"><a class="close" href="#work" aria-label="Close case study">✕</a>
+			<div class="mart empty" style="--h1:200;--h2:300">
+				<div class="mono"><b>MR</b></div>
+			</div>
+			<div class="in" style="--h1:200;--h2:300">
+				<div class="eyebrow">Case study · Personal · Full stack</div>
+				<div class="ptitle"><span class="appico" aria-hidden="true">MR</span>
+					<h3 id="case-meheja-t">Meheja Ride Sharing</h3>
+				</div>
+				<p class="role"><b>My role:</b> Full-Stack Developer. Solo personal project (Oct – Dec 2023): Flutter
+					app and Firebase backend.</p>
+				<div class="case">
+					<div>
+						<h4>Problem</h4>
+						<p>A ride-sharing flow needs routes, prices, live navigation and payments to work together.</p>
+					</div>
+					<div>
+						<h4>What I built</h4>
+						<ul>
+							<li>Route calculation and price estimation</li>
+							<li>Real-time navigation and ride tracking</li>
+							<li>Firebase authentication and payment integration</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Tech</h4>
+						<div class="chips">
+							<span>Flutter</span><span>Firebase</span><span>Maps</span><span>Payments</span>
+						</div>
+					</div>
+					<div>
+						<h4>Result</h4>
+						<p>A working end-to-end ride-sharing app, built independently in Oct – Dec 2023 with route
+							calculation, price estimation and real-time navigation.</p>
+					</div>
+				</div>
+				<div class="btns" style="justify-content:flex-start"><span class="hint">Demo on request</span></div>
 			</div>
 		</div>
 	</div>
@@ -2433,15 +3188,15 @@
 		const $ = s => document.querySelector(s);
 
 		/* ================= hero text ================= */
+		// Letters are split only for the hover effect; the heading text itself stays in the HTML (readable and indexable).
 		const nameEl = $('#name');
-		nameEl.innerHTML = nameEl.textContent.split('').map(c => c === ' ' ? ' ' : `<span class="ch">${c}</span>`).join('');
-		const kick = ['Full stack', 'Mobile apps', 'Web apps', 'Backend & APIs', 'RESTful APIs', 'Flutter', 'Node.js & Go']; let ki = 0;
-		if (!reduce) setInterval(() => { ki = (ki + 1) % kick.length; $('#kicker').innerHTML = `<span>${kick[ki]}</span>`; }, 2400);
+		nameEl.setAttribute('aria-label', nameEl.textContent);
+		nameEl.innerHTML = nameEl.textContent.split(' ').map(w => `<span style="display:inline-block" aria-hidden="true">${[...w].map(c => `<span class="ch">${c}</span>`).join('')}</span>`).join(' ');
 
 		/* ================= marquee ================= */
 		// Edit these lists to add or remove skills; the belt adapts automatically.
-		const tech = ['Flutter', 'Dart', 'Bloc', 'Provider', 'GetIt', 'Clean Architecture', 'Firebase', 'Node.js', 'Go', 'GraphQL', 'RESTful APIs', 'Java', 'Git', 'iOS', 'Android', 'Web apps', 'UI/UX'];
-		const practice = ['Full stack development', 'Cross-platform development', 'Responsive web', 'Dependency injection', 'Encryption & secure APIs', 'Payment integration', 'Geolocation & maps', 'Real-time data', 'Firebase Auth', 'Performance tuning', 'Debugging & bug fixing', 'Agile & Waterfall', 'Version control', 'Team collaboration'];
+		const tech = ['Flutter', 'Dart', 'Bloc', 'Provider', 'GetIt', 'Clean Architecture', 'Firebase', 'REST APIs', 'Node.js', 'GraphQL', 'Java', 'Git', 'iOS', 'Android', 'Google Play & App Store'];
+		const practice = ['Cross-platform development', 'Dependency injection', 'Encryption & secure APIs', 'Payment integration', 'Geolocation & maps', 'Real-time data', 'Firebase Auth', 'Performance tuning', 'Debugging & bug fixing', 'Agile & Waterfall', 'Version control', 'Team collaboration'];
 		const fill = (el, list) => { el.innerHTML = [...list, ...list].map(t => `<span>${t}</span>`).join(''); };
 		fill($('#mq'), tech); fill($('#mq2'), practice);
 		(function () {
@@ -2486,7 +3241,7 @@
 			c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipped = !flipped; apply(); } });
 			// real, scannable QR code for the portfolio URL (qrcode-generator)
 			if (window.qrcode) {
-				const qr = qrcode(0, 'M'); qr.addData('https://tamremariam.github.io/'); qr.make();
+				const qr = qrcode(0, 'M'); qr.addData('https://tamremariambelete.netlify.app/'); qr.make();
 				const n = qr.getModuleCount(); let d = '';
 				for (let r = 0; r < n; r++) for (let c2 = 0; c2 < n; c2++) if (qr.isDark(r, c2)) d += `M${c2} ${r}h1v1h-1z`;
 				$('#qr').innerHTML = `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" aria-hidden="true"><path fill="#06102e" d="${d}"/></svg>`;
@@ -2503,65 +3258,33 @@
 		}), { threshold: .6 });
 		document.querySelectorAll('.stat b').forEach(b => cio.observe(b));
 
-		/* ================= services ================= */
-		const icons = {
-			phone: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
-			code: '<path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 4l-4 16"/>',
-			ui: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>',
-			bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
-			net: '<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5M12 12l6 5"/>'
-		};
-		const svcs = [
-			['phone', 'Mobile apps', 'Flutter apps for iOS and Android from one codebase, with clean architecture, Bloc or Provider and smooth performance on every phone.'],
-			['ui', 'Web apps', 'Responsive web apps that share the same APIs and data as the mobile app, so users get one consistent product on every screen.'],
-			['net', 'Backends & APIs', 'RESTful and GraphQL APIs built with Node.js and Go, plus Firebase for real-time data, auth and notifications.'],
-			['bolt', 'Integrations', 'Payments, maps and geolocation, real-time data, push notifications and third-party APIs, whatever the product needs.']
-		];
-		$('#svcs').innerHTML = svcs.map((s, i) => `<article class="svc glass"><span class="n">0${i + 1}</span><div class="ico"><svg viewBox="0 0 24 24">${icons[s[0]]}</svg></div><h3>${s[1]}</h3><p>${s[2]}</p></article>`).join('');
+		/* ================= services glow ================= */
 		document.querySelectorAll('.svc').forEach(el => el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px'); }));
 
-		/* ================= projects ================= */
-		const projects = [
-			{ icon: 'images/apps/starpay-icon.webp', shots: ['images/apps/starpay-1.webp', 'images/apps/starpay-2.webp', 'images/apps/starpay-3.webp'], t: 'StarPay Ethiopia', tag: 'Fintech · EagleLion', d: 'Pay and get paid instantly with Ethiopian banks and mobile wallets. Merchants accept any bank or wallet; customers pay bills and shop by bank, card, QR, reference or wallet.', stack: ['Flutter', 'Dart', 'Clean Architecture', 'REST APIs', 'EthSwitch'], m: [['50K+', 'downloads'], ['4.1★', 'Play rating'], ['10', 'banks & wallets']], l: ['Cross-platform build for iOS and Android with clean architecture', 'Payment flows for banks including CBE, Dashen and Awash, and wallets like Telebirr and M-Pesa', 'Merchant transaction tracking, reports and instant confirmations'], links: [['Google Play', 'https://play.google.com/store/apps/details?id=com.eaglelionsystems.starpay']], h: [220, 35] },
-			{ icon: 'images/apps/melacheck-icon.webp', shots: ['images/apps/melacheck-1.webp', 'images/apps/melacheck-2.webp', 'images/apps/melacheck-3.webp'], t: 'Mela Check', tag: 'Fintech', d: 'Verifies bank transaction receipts quickly and securely, so businesses can confirm a payment is real before handing over goods.', stack: ['Flutter', 'Dart', 'REST APIs', 'Notifications'], m: [['10K+', 'downloads'], ['4.8★', 'Play rating'], ['Real-time', 'verification']], l: ['Receipt verification with instant results and history', 'Customer records, team members and agent management', 'Reports, analytics and push alerts'], links: [['Google Play', 'https://play.google.com/store/apps/details?id=com.dave.melacheck_app']], h: [160, 40] },
-			{ icon: 'images/apps/oont-icon.webp', shots: ['images/apps/oont-1.webp', 'images/apps/oont-2.webp', 'images/apps/oont-3.webp'], t: 'OoNt', tag: 'Shopping · Remote', d: 'A grocery and savings app built for a UK team, live on both Google Play and the App Store. I worked on the Flutter app and the backend.', stack: ['Flutter', 'Provider', 'Firebase', 'Node.js'], m: [['iOS', '+ Android'], ['Firebase', 'backend'], ['Remote', 'team']], l: ['Improved performance and fixed critical bugs in an existing codebase', 'Provider state management for a scalable app flow', 'Firebase and Node.js services for a production-ready system'], links: [['Google Play', 'https://play.google.com/store/apps/details?id=com.oont.oontapp'], ['App Store', 'https://apps.apple.com/gb/app/oont-saving-you-time-money/id6473649131']], h: [270, 180] },
-			{ t: 'KCM Marketplace', tag: 'Commodities · Kegeberew', d: 'Kegeberew Commodities Marketplace connects buyers and sellers of commodities. I added geolocation and payment integration and fixed key bugs.', stack: ['Flutter', 'Bloc', 'GetIt', 'Payments', 'Maps'], m: [['Geo', 'location'], ['Payment', 'integration'], ['Bloc', '+ GetIt']], l: ['Added geolocation features', 'Integrated payments into the purchase flow', 'Resolved key bugs to improve overall stability'], links: [], note: 'No longer listed on Google Play', h: [130, 60] },
-			{ t: 'China2Africa', tag: 'E-commerce', d: 'An e-commerce app built from scratch, focused on a smooth shopping experience with real-time data over GraphQL.', stack: ['Flutter', 'GraphQL', 'Bloc', 'GetIt'], m: [['From', 'scratch'], ['GraphQL', 'real-time'], ['Bloc', 'state']], l: ['Designed and built the full app from the first screen', 'Real-time product and order data with GraphQL', 'Bloc state management with GetIt dependency injection'], links: [], h: [350, 20] },
-			{ t: 'Meheja Ride Sharing', tag: 'Personal · Full stack', d: 'A ride-sharing app I built on my own, with route calculation, price estimates, live navigation and payments.', stack: ['Flutter', 'Firebase', 'Maps', 'Payments'], m: [['Solo', 'build'], ['Live', 'navigation'], ['Firebase', 'auth & data']], l: ['Route calculation and price estimation', 'Real-time navigation and ride tracking', 'Firebase authentication and payment integration'], links: [], h: [200, 300] }
-		];
-		const ini = t => t.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
-		const hv = p => `--h1:${p.h[0]};--h2:${p.h[1]}`;
-		const icoHTML = p => p.icon ? `<img class="appico" src="${p.icon}" alt="" width="48" height="48" loading="lazy">` : `<span class="appico" aria-hidden="true">${ini(p.t)}</span>`;
-		const artHTML = p => p.shots ? `<div class="shots">${p.shots.map((u, k) => `<img src="${u}" alt="${p.t} screenshot ${k + 1}" loading="lazy">`).join('')}</div>` : `<div class="mono"><b>${ini(p.t)}</b><small>${p.note || 'Screens on request'}</small></div>`;
-		$('#projects').innerHTML = projects.map((p, i) => `<button type="button" class="proj glass" data-i="${i}" style="${hv(p)}"><div class="art">${artHTML(p)}<span class="tag">${p.tag}</span>${p.links.length ? `<span class="tag" style="left:auto;right:18px;color:#8ff0c0">● LIVE</span>` : ''}<span class="open">↗</span></div><div class="body"><div class="ptitle">${icoHTML(p)}<h3>${p.t}</h3></div><p>${p.d}</p><div class="chips">${p.stack.slice(0, 4).map(s => `<span>${s}</span>`).join('')}</div></div></button>`).join('');
-		const modal = $('#modal'); let lastFocus;
-		function openModal(i) {
-			const p = projects[i]; lastFocus = document.activeElement;
-			const art = $('#mArt'); art.setAttribute('style', hv(p)); art.className = 'mart' + (p.shots ? '' : ' empty');
-			art.innerHTML = p.shots ? p.shots.map((u, k) => `<img src="${u}" alt="${p.t} screenshot ${k + 1}">`).join('') : `<div class="mono"><b>${ini(p.t)}</b></div>`; art.scrollLeft = 0;
-			$('#mHead').setAttribute('style', hv(p)); $('#mHead').querySelector('.appico')?.remove(); $('#mHead').insertAdjacentHTML('afterbegin', icoHTML(p));
-			$('#mTag').textContent = p.tag; $('#mTitle').textContent = p.t; $('#mDesc').textContent = p.d;
-			$('#mMetrics').innerHTML = p.m.map(m => `<div><b>${m[0]}</b><span>${m[1]}</span></div>`).join('');
-			$('#mList').innerHTML = p.l.map(l => `<li>${l}</li>`).join('');
-			$('#mChips').innerHTML = p.stack.map(s => `<span>${s}</span>`).join('');
-			$('#mLinks').innerHTML = p.links.length ? p.links.map(l => `<a class="btn prime" href="${l[1]}" target="_blank" rel="noopener">${l[0]} ↗</a>`).join('') : `<span class="hint">${p.note || 'Not public yet · demo on request'}</span>`;
-			modal.classList.add('open'); $('#mClose').focus();
+		/* ================= case studies =================
+		   The case-study text lives in the HTML (.modal elements). Links go to #case-<id>; closing goes back to #work.
+		   Opening and closing use history entries, so the back button closes a case study. */
+		let lastFocus = null;
+		const cases = [...document.querySelectorAll('.modal')];
+		function syncCase() {
+			const id = location.hash.slice(1), cur = cases.find(m => m.id === id);
+			cases.forEach(m => m.classList.toggle('open', m === cur));
+			if (cur) { cur.querySelector('.close').focus({ preventScroll: true }); }
+			else if (lastFocus) { lastFocus.focus({ preventScroll: true }); lastFocus = null; }
 		}
-		function closeModal() { modal.classList.remove('open'); lastFocus && lastFocus.focus(); }
-		document.querySelectorAll('.proj').forEach(b => b.addEventListener('click', () => openModal(+b.dataset.i)));
-		$('#mClose').addEventListener('click', closeModal);
-		modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-		addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+		document.querySelectorAll('[data-case]').forEach(a => a.addEventListener('click', e => {
+			e.preventDefault(); lastFocus = a;
+			history.pushState(null, '', a.getAttribute('href')); syncCase();
+		}));
+		function closeCase() { if (location.hash.startsWith('#case-')) { history.pushState(null, '', '#work'); syncCase(); } }
+		cases.forEach(m => {
+			m.addEventListener('click', e => { if (e.target === m || e.target.closest('.close')) { e.preventDefault(); closeCase(); } });
+		});
+		addEventListener('popstate', syncCase); addEventListener('hashchange', syncCase);
+		addEventListener('keydown', e => { if (e.key === 'Escape') closeCase(); });
+		syncCase();
 
 		/* ================= timeline ================= */
-		const jobs = [
-			['Feb 2025 — Now', 'Flutter Mobile Application Developer', 'EagleLion System Technology', 'Build cross-platform payment apps, including StarPay, with clean architecture for long-term maintainability. Work with cross-functional teams and explain technical ideas to non-technical stakeholders.'],
-			['Oct 2024 — May 2025', 'Flutter & Backend Developer', 'OoNt · Remote', 'Improved performance and fixed critical bugs in a live grocery app on iOS and Android. Used Provider for state, with Firebase and Node.js services behind it.'],
-			['Oct 2024 — Jan 2025', 'Flutter Developer', 'Etech', 'Debugged and improved existing codebases, integrated RESTful APIs and moved state management to Bloc for better responsiveness and stability.'],
-			['Apr 2024 — Oct 2024', 'Flutter Developer', 'Kegeberew Technology Solutions', 'Built the China2Africa and KCM apps with Bloc, Provider and GetIt, integrating GraphQL and REST APIs for real-time updates.'],
-			['2022 — 2023', 'Self-taught builder', 'Personal projects', 'Started with a bilingual Amharic and English app about famous Ethiopians in Java, then built the Meheja ride-sharing app end to end with Flutter and Firebase.']
-		];
-		$('#timeline').insertAdjacentHTML('beforeend', jobs.map(j => `<article class="job glass"><div class="top"><span class="when">${j[0]}</span></div><h3>${j[1]}</h3><div class="org">${j[2]}</div><p>${j[3]}</p></article>`).join(''));
 		function tlUpdate() {
 			const tl = $('#timeline'), r = tl.getBoundingClientRect(), mid = innerHeight * .6;
 			const p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
@@ -2570,10 +3293,6 @@
 		}
 
 		/* ================= skills ================= */
-		const bars = [['Mobile: Flutter & Dart', 95], ['State management: Bloc, Provider, GetIt', 90], ['RESTful & GraphQL APIs', 88], ['Backend: Node.js, Go & Firebase', 85], ['Java', 70]];
-		$('#bars').innerHTML = bars.map(b => `<div class="sbar"><div class="l"><span>${b[0]}</span><b>${b[1]}%</b></div><div class="t"><div class="f" style="--w:${b[1]}%"></div></div></div>`).join('');
-		const bio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !reduce) { bio.unobserve(e.target); e.target.querySelectorAll('.f').forEach(f => { f.style.width = '0'; requestAnimationFrame(() => requestAnimationFrame(() => f.style.width = '')); }); } }), { threshold: .4 });
-		bio.observe($('#bars'));
 		const traits = { 'Problem solving': 'I dig into existing codebases, find what slows them down and fix it with targeted changes.', Communication: 'I explain technical ideas clearly to designers, managers and non-technical stakeholders.', Creativity: 'I look for the simplest interaction that makes a complex flow, like a checkout, booking or sign-up, feel easy.', 'Time management': 'I plan work into small pieces and consistently meet deadlines without cutting quality.', 'Eye for detail': 'Spacing, animation timing and edge cases matter. I test on real devices before shipping.', 'Agile & Waterfall': 'I am comfortable in sprints with daily stand-ups, and in planned, phase-by-phase projects.' };
 		$('#traits').innerHTML = Object.keys(traits).map(t => `<button type="button">${t}</button>`).join('');
 		$('#traits').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; document.querySelectorAll('#traits button').forEach(x => x.classList.toggle('on', x === b)); $('#traitTxt').textContent = traits[b.textContent]; });
