@@ -41,7 +41,7 @@
       this.glows = Object.fromEntries(PALETTE.map(c => [c, Starfield.glow(c)]));
       this.t = 0;
       this.act = 0;                    // 0..1, eases in while warping: the glowing look only shows in action
-      this.stars = Array.from({ length: innerWidth < 600 ? 420 : 850 }, () => this.spawn());
+      this.stars = Array.from({ length: innerWidth < 600 ? 520 : 1300 }, () => this.spawn());
       addEventListener('resize', () => this.resize());
       this.bindScroll();
 
@@ -68,9 +68,10 @@
     }
 
     spawn(z) {
-      const { W, H } = this, r = Math.random();
+      const { W, H } = this, r = Math.random(), depth = z ?? Math.random() * W;
+      // placed so the star lands at a uniformly random spot on screen: the whole screen is covered, not only the edges
       return {
-        x: (Math.random() - .5) * W * 2, y: (Math.random() - .5) * H * 2, z: z ?? Math.random() * W, pz: 0,
+        x: this.cx + (Math.random() - .5) * 2 * depth, y: this.cy + (Math.random() - .5) * 2 * depth * H / W, z: depth, pz: 0,
         m: Math.pow(Math.random(), 3),                         // brightness: most stars faint, a few bright ones
         tw: 1.5 + Math.random() * 3, ph: Math.random() * 6.28, // twinkle rate and phase
         c: PALETTE[r < .08 ? 0 : r < .16 ? 1 : r < .3 ? 2 : 3] // 8% rose, 8% amber, 14% blue, rest white
@@ -137,9 +138,9 @@
         const px = (s.x - cx) / s.pz * k + fx, py = (s.y - cy) / s.pz * k + fy, d = 1 - s.z / W;
         // idle (act 0): the plain look; in warp (act 1): varied brightness, twinkle and glowing heads
         const tw = 1 - act * (1 - boost) * .35 * (.5 + .5 * Math.sin(this.t * s.tw + s.ph));
-        const a = (Math.min(1, d * 1.4) * (1 - act) + Math.min(1, d * d * (.6 + s.m * 1.6)) * act) * tw;
+        const a = (Math.min(1, .3 + d * 1.1) * (1 - act) + Math.min(1, d * d * (.6 + s.m * 1.6)) * act) * tw;
         ctx.strokeStyle = `rgba(${s.c},${a})`;
-        ctx.lineWidth = Math.max(.3, d * (2.3 * (1 - act) + (1.1 + s.m * 2.2) * act) * devicePixelRatio);
+        ctx.lineWidth = Math.max(.9 * (1 - act) + .3 * act, d * (2.3 * (1 - act) + (1.1 + s.m * 2.2) * act) * devicePixelRatio);
         ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(sx, sy); ctx.stroke();
         if (act > .02 && s.m > .35 && d > .45) { // halo on bright, close stars
           const r = d * d * (6 + s.m * 14) * devicePixelRatio;
