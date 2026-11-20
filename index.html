@@ -2115,7 +2115,7 @@
   <div class="rail-r" id="railR"></div>
 
   <header class="hero" id="top" data-name="Home">
-    <!-- nebula disabled for now
+    <!-- nebula disabled for now (see js/space/nebula.js to bring it back)
     <canvas id="nebula" aria-hidden="true"></canvas>
     -->
     <canvas id="ring" aria-label="Interactive 3D spiral galaxy. Drag to spin it."></canvas>
@@ -2377,293 +2377,17 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- space scenery: one class per file, sharing the window.Space namespace (order matters) -->
+  <script src="js/space/utils.js"></script>
+  <script src="js/space/starfield.js"></script>
+  <script src="js/space/galaxy.js"></script>
+  <script src="js/space/solar-system.js"></script>
+  <script src="js/space/hyperjump.js"></script>
+  <script src="js/space/main.js"></script>
   <script>
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fine = matchMedia('(pointer:fine)').matches;
     const $ = s => document.querySelector(s);
-
-    /* ================= starfield (kept from v2, retuned to the new palette) ================= */
-    const cv = $('#space'), ctx = cv.getContext('2d');
-    let W, H, stars = [], speed = .35, target = .35, mx = 0, my = 0, cx = 0, cy = 0, warping = false, scrollBoost = 0;
-    const N = innerWidth < 600 ? 420 : 850;
-    function size() { W = cv.width = innerWidth * devicePixelRatio; H = cv.height = innerHeight * devicePixelRatio; }
-    function mk(z) { const r = Math.random(); return { x: (Math.random() - .5) * W * 2, y: (Math.random() - .5) * H * 2, z: z ?? Math.random() * W, pz: 0, c: r < .08 ? '255,111,159' : r < .16 ? '227,172,99' : r < .3 ? '120,160,255' : '238,241,255' }; }
-    size(); for (let i = 0; i < N; i++) stars.push(mk());
-    addEventListener('resize', size);
-    addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
-    let lastY = scrollY;
-    let scrollIdle;
-    addEventListener('scroll', () => {
-      const deep = scrollY > innerHeight * .55;
-      scrollBoost = Math.min(deep ? 2.5 : 5, scrollBoost + Math.abs(scrollY - lastY) * (deep ? .008 : .015)); lastY = scrollY;
-      if (!document.body.classList.contains('scrolling')) document.body.classList.add('scrolling');
-      clearTimeout(scrollIdle); scrollIdle = setTimeout(() => document.body.classList.remove('scrolling'), 180);
-    }, { passive: true });
-    function frame() {
-      target = warping ? 26 : .35 + scrollBoost; scrollBoost *= .92;
-      speed += (target - speed) * .06;
-      cx += (mx * W * .3 - cx) * .05; cy += (my * H * .3 - cy) * .05;
-      ctx.fillStyle = `rgba(4,10,36,${warping ? .22 : .55})`; ctx.fillRect(0, 0, W, H);
-      const fx = W / 2, fy = H / 2, k = W * .5;
-      for (const s of stars) {
-        s.pz = s.z; s.z -= speed * 4;
-        if (s.z < 1) { Object.assign(s, mk(W)); s.pz = s.z; continue; }
-        const sx = (s.x - cx) / s.z * k + fx, sy = (s.y - cy) / s.z * k + fy, px = (s.x - cx) / s.pz * k + fx, py = (s.y - cy) / s.pz * k + fy;
-        if (sx < 0 || sx > W || sy < 0 || sy > H) { Object.assign(s, mk(W)); continue; }
-        const d = 1 - s.z / W;
-        ctx.strokeStyle = `rgba(${s.c},${Math.min(1, d * 1.4)})`; ctx.lineWidth = Math.max(.3, d * 2.3 * devicePixelRatio); ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(sx, sy); ctx.stroke();
-      }
-      requestAnimationFrame(frame);
-    }
-    if (!reduce) frame(); else { ctx.fillStyle = '#040a24'; ctx.fillRect(0, 0, W, H); for (let i = 0; i < 300; i++) { ctx.fillStyle = 'rgba(238,241,255,.6)'; ctx.fillRect(Math.random() * W, Math.random() * H, 1.5, 1.5); } }
-    const floor = $('#floor'); let fy2 = 0;
-    (function fl() { fy2 = (fy2 + speed * 1.5) % 64; floor.style.backgroundPosition = `${-cx / devicePixelRatio * .12}px ${fy2}px`; if (!reduce) requestAnimationFrame(fl); })();
-    const warpOn = () => { warping = true; ringKick = 0.25; }, warpOff = () => warping = false;
-    window.__space = { warpOn, warpOff, reduce }; // used by js/solar-system.js (Hyperdrive button lives there)
-    addEventListener('keydown', e => { if (e.code === 'Space' && !/INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) { e.preventDefault(); warpOn(); } });
-    addEventListener('keyup', e => { if (e.code === 'Space') warpOff(); });
-
-    /* ================= Milky Way-style spiral galaxy (Three.js points) ================= */
-    let ringKick = 0;
-    (function () {
-      const canvas = $('#ring');
-      if (typeof THREE === 'undefined') { canvas.outerHTML = '<div id="ring"><div class="ring-fallback"></div></div>'; return; }
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
-      const dpr = Math.min(2, devicePixelRatio);
-      renderer.setPixelRatio(dpr);
-      const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(40, 1, .1, 100); cam.position.set(0, 0, 9);
-
-      // ---- procedural galaxy: a shader paints the disk light once (log-spiral arms, clumps, knots,
-      //      dust lanes, bulge) into a texture; the texture then sits on a disk that turns rigidly in 3D.
-      const small = innerWidth < 700, R = 4.6, H = R * 1.08, K = 3.1; // H: disk half-size, K: spiral winding
-      const group = new THREE.Group(); scene.add(group);
-      const uni = { uT: { value: 0 }, uSize: { value: (small ? 12 : 15) * dpr }, uWarp: { value: 0 }, uMap: { value: null }, uFade: { value: 1 } };
-      const BAKE = small ? 1024 : 2048;
-      const rt = new THREE.WebGLRenderTarget(BAKE, BAKE, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
-      const bakeScene = new THREE.Scene(), bakeCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-      bakeScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
-        uniforms: { K: { value: K }, RES: { value: BAKE } },
-        vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }`,
-        fragmentShader: `precision highp float; uniform float K, RES; varying vec2 vUv;
-          float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-          float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y); }
-          float fbm(vec2 p){ float v = 0., a = .5; mat2 m = mat2(.8,.6,-.6,.8); for(int i=0;i<6;i++){ v += a*n(p); p = m*p*2.03 + 1.7; a *= .5; } return v; }
-          // noise that wraps in x with period P (lets us sample along the spiral without a seam)
-          float hp(vec2 i, float P){ i.x = mod(i.x, P); return h(i); }
-          float np(vec2 p, float P){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(hp(i, P), hp(i+vec2(1,0), P), f.x), mix(hp(i+vec2(0,1), P), hp(i+vec2(1,1), P), f.x), f.y); }
-          float fbp(vec2 p, float P){ float v = 0., a = .5; for(int i=0;i<5;i++){ v += a*np(p, P); p *= 2.; P *= 2.; p.y += 1.3; a *= .5; } return v; }
-          void main(){
-            vec2 p = vUv * 2. - 1.; float r = length(p);
-            if (r > 1.) { gl_FragColor = vec4(0.); return; }
-            vec2 w = p + .07 * (vec2(fbm(p*3. + 1.7), fbm(p*3. + 9.2)) - .5);   // irregular, organic arms
-            float rw = length(w) + 1e-4, th = atan(w.y, w.x);
-            float ph = th - K * log(rw);                                          // logarithmic spiral phase
-            float c = .5 + .5 * cos(2. * ph);                                     // two arms
-            float spur = pow(.5 + .5 * cos(4. * ph + 1.3 * fbm(p * 5.)), 4.) * .35;   // branching spurs between the main arms
-            float arm = pow(c, 2.2) + spur, armSoft = pow(c, 1.1);
-            float disk = exp(-r / .4), armR = smoothstep(.05, .2, r) * smoothstep(1., .5, r);
-            float bulge = exp(-r*r / .0022) * .85 + exp(-r*r / .014) * .4 + exp(-r*r / .08) * .14;
-            vec2 sc = vec2(ph / 6.2831853 * 28., log(rw) * 4.);                    // spiral coords: x across arms, y along them
-            float cl = fbm(p * 13.), fib = fbp(sc, 28.);
-            arm *= .5 + .8 * fib;                                                 // fibres stretched along the arms
-            float knots = smoothstep(.7, .86, fbm(p * 64. + 3.)) * pow(c, 3.) * armR * (.5 + fib); // many small HII knots
-            float win = smoothstep(.06, .2, r) * smoothstep(.95, .35, r);
-            float lane = pow(.5 + .5 * cos(2. * ph + .75), 14.);                   // thin dust lane on the inner edge of each arm
-            float dust = lane * win * (.35 + .9 * fbp(sc * vec2(1., 1.6) + vec2(0., 7.), 28.));
-            dust += smoothstep(.56, .8, fbp(sc * vec2(1., 2.) + vec2(5., 11.), 28.)) * .55 * win; // feathery lanes along the arms
-            vec3 warm = vec3(1., .84, .62), blue = vec3(.62, .76, 1.), core = vec3(1., .95, .86);
-            vec3 col = mix(warm, core, smoothstep(.15, 0., r)) * bulge;
-            vec3 armCol = mix(warm, blue, smoothstep(.1, .42, r));
-            col += armCol * disk * (.18 + 1.7 * arm * armR * (.55 + .9 * cl));
-            col += warm * disk * .22 * armSoft;
-            col += vec3(.78, .88, 1.) * knots * (disk + .2) * 6.5;
-            col *= 1. - clamp(dust * .95, 0., .75);
-            col += vec3(.32, .17, .07) * dust * disk * .35;                         // brownish lanes
-            vec2 sp = floor(vUv * RES * .5);
-            float st = step(.9975, h(sp)) * smoothstep(1., .15, r) * (.4 + .6 * h(sp + 3.));
-            vec2 sq = floor(vUv * RES * .8);
-            st += step(.94, h(sq + 5.)) * .22 * (disk * 2. + arm * .8) * h(sq + 9.);     // fine stellar grain
-            col += st * mix(vec3(1., .85, .6), vec3(.8, .9, 1.), h(sp + 7.));          // resolved stars
-            col = 1. - exp(-col * 1.6);                                            // filmic tone map: no blown-out core
-            col *= smoothstep(1., .78, r);
-            gl_FragColor = vec4(col, 1.);
-          }`
-      })));
-      renderer.setRenderTarget(rt); renderer.render(bakeScene, bakeCam); renderer.setRenderTarget(null);
-      uni.uMap.value = rt.texture;
-      const disk = new THREE.Mesh(new THREE.PlaneGeometry(H * 2, H * 2), new THREE.ShaderMaterial({
-        uniforms: uni, transparent: true, depthWrite: false, side: THREE.DoubleSide,
-        // pure additive (ONE, ONE) with luminance as alpha: black stays fully see-through on the transparent canvas
-        blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.OneFactor, blendDstAlpha: THREE.OneFactor,
-        vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
-        fragmentShader: `uniform sampler2D uMap; uniform float uWarp; varying vec2 vUv;
-          uniform float uFade; void main(){ vec3 c = texture2D(uMap, vUv).rgb * (1. + uWarp * .5) * uFade; gl_FragColor = vec4(c, max(c.r, max(c.g, c.b))); }`
-      }));
-      disk.rotation.x = -Math.PI / 2; disk.renderOrder = 1; group.add(disk);
-
-      // ---- resolved stars along the SAME log spiral as the shader (plane coords p -> group space: x = px*H, z = -py*H)
-      const ARM_SHIFT = .45; // aligns particles with the shader's brightest arm ridge
-      const gs = () => { let u = 0; for (let k = 0; k < 4; k++) u += Math.random(); return u / 4 - .5; };
-      const NA = small ? 16000 : 38000, apos = new Float32Array(NA * 3), acol = new Float32Array(NA * 3), asz = new Float32Array(NA);
-      const C = h => new THREE.Color(h), tc = new THREE.Color();
-      const cIn = C('#ffe0b0'), cArm = C('#c2d4ff'), cOut = C('#86a6ff'), cKnot = C('#eaf1ff');
-      const knots = [];
-      for (let k = 0; k < (small ? 45 : 80); k++) { const r = .2 + Math.random() * .58, th = K * Math.log(r) + (k % 2) * Math.PI + ARM_SHIFT + gs() * .3; knots.push([Math.cos(th) * r, Math.sin(th) * r]); }
-      for (let i = 0; i < NA; i++) {
-        let px, py, r, y; const kind = Math.random();
-        if (kind < .14) { // star-forming knots: tight bright clusters
-          const k = knots[(Math.random() * knots.length) | 0];
-          px = k[0] + gs() * .05; py = k[1] + gs() * .05; r = Math.hypot(px, py); y = gs() * .05;
-          tc.copy(cKnot).multiplyScalar(1.1 + Math.random() * .4); asz[i] = 1.2 + Math.random() * 1.8;
-        } else { // arm stars: hug the arm, long tail between arms
-          const arm = Math.random() < .5 ? 0 : Math.PI;
-          r = .1 + Math.pow(Math.random(), 1.3) * .74;
-          const th = K * Math.log(r) + arm + ARM_SHIFT + gs() * .45;
-          const off = () => Math.pow(Math.random(), 2.4) * (Math.random() < .5 ? 1 : -1) * (.02 + r * .05);
-          px = Math.cos(th) * r + off(); py = Math.sin(th) * r + off(); y = gs() * .14 * (1 - r * .6);
-          tc.copy(cIn).lerp(cArm, Math.min(1, Math.max(0, (r - .12) * 3.2))).lerp(cOut, Math.max(0, r - .6) * 2).multiplyScalar((.55 + Math.random() * .6) * (1 - Math.max(0, r - .6) * 2.2)); // fade toward the rim
-          asz[i] = .6 + Math.random() * 1.4;
-        }
-        apos[i * 3] = px * H; apos[i * 3 + 1] = y; apos[i * 3 + 2] = -py * H;
-        acol[i * 3] = tc.r; acol[i * 3 + 1] = tc.g; acol[i * 3 + 2] = tc.b;
-      }
-
-      // ---- 3D star field around the disk for depth (rigid, rotates with the galaxy)
-      const N = small ? 2500 : 5000;
-      const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), size = new Float32Array(N);
-      const tmp = new THREE.Color(), cB = new THREE.Color('#cfdcff'), cO = new THREE.Color('#ffb877');
-      const g = () => { let u = 0; for (let k = 0; k < 4; k++) u += Math.random(); return u / 4 - .5; };
-      for (let i = 0; i < N; i++) {
-        const r = Math.pow(Math.random(), .6) * R * 1.4, a = Math.random() * Math.PI * 2;
-        pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = g() * 2.2; pos[i * 3 + 2] = Math.sin(a) * r;
-        if (Math.random() < .06) { tmp.copy(cO); size[i] = 1.8 + Math.random() * 1.6; } else { tmp.copy(cB).multiplyScalar(.45 + Math.random() * .5); size[i] = .5 + Math.random() * 1.1; }
-        col[i * 3] = tmp.r; col[i * 3 + 1] = tmp.g; col[i * 3 + 2] = tmp.b;
-      }
-      const cat = (x, y) => { const o = new Float32Array(x.length + y.length); o.set(x); o.set(y, x.length); return o; };
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(cat(pos, apos), 3));
-      geo.setAttribute('color', new THREE.BufferAttribute(cat(col, acol), 3));
-      geo.setAttribute('aSize', new THREE.BufferAttribute(cat(size, asz), 1));
-      const stars = new THREE.Points(geo, new THREE.ShaderMaterial({
-        uniforms: uni, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-        vertexShader: `uniform float uSize, uWarp, uFade; attribute float aSize; varying vec3 vC;
-          void main(){
-            vec4 mv = modelViewMatrix * vec4(position, 1.);
-            gl_Position = projectionMatrix * mv;
-            gl_PointSize = uSize * aSize * (1. + uWarp * .6) / -mv.z;
-            vC = color * (1. + uWarp * .5) * uFade;
-          }`,
-        fragmentShader: `varying vec3 vC;
-          void main(){ float d = length(gl_PointCoord - .5); float s = smoothstep(.5, 0., d); s *= s; gl_FragColor = vec4(vC * s, s); }`
-      }));
-      stars.renderOrder = 2; group.add(stars);
-
-      // ---- soft bloom on the core
-      function glowTex(stops) {
-        const c = document.createElement('canvas'); c.width = c.height = 128;
-        const x = c.getContext('2d'), gr = x.createRadialGradient(64, 64, 0, 64, 64, 64);
-        stops.forEach(s => gr.addColorStop(s[0], s[1])); x.fillStyle = gr; x.fillRect(0, 0, 128, 128);
-        return new THREE.CanvasTexture(c);
-      }
-      const core = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex([[0, 'rgba(255,245,225,.9)'], [.2, 'rgba(255,220,170,.35)'], [.6, 'rgba(255,190,130,.06)'], [1, 'rgba(0,0,0,0)']]), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
-      core.scale.set(2.4, 2.4, 1); core.renderOrder = 3; group.add(core);
-
-      const tilt = { x: .5, z: .12 }, lift = 2.45;
-      group.rotation.set(tilt.x, 0, tilt.z); group.position.y = lift;
-
-      function resize() {
-        const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false);
-        cam.aspect = r.width / r.height;
-        cam.position.z = cam.aspect < .8 ? 15 : 11; // keep the whole galaxy in frame on phones
-        cam.updateProjectionMatrix(); if (reduce) renderer.render(scene, cam);
-      }
-      resize(); addEventListener('resize', resize);
-      const hooks = []; // per-frame callbacks (solar system)
-      window.__galaxy = { THREE, renderer, scene, cam, group, uni, core, hooks, render: () => renderer.render(scene, cam), baseZ: () => cam.aspect < .8 ? 15 : 11 };
-
-      // drag to spin (and gently tilt) with inertia
-      let drag = false, lx = 0, ly = 0, vx = 0, vy = 0;
-      canvas.addEventListener('pointerdown', e => { drag = true; lx = e.clientX; ly = e.clientY; canvas.setPointerCapture(e.pointerId); });
-      canvas.addEventListener('pointermove', e => { if (!drag) return; vx = (e.clientX - lx) * .005; vy = (e.clientY - ly) * .003; lx = e.clientX; ly = e.clientY; });
-      canvas.addEventListener('pointerup', () => drag = false);
-      canvas.addEventListener('dblclick', () => { ringKick = .25; warpOn(); setTimeout(warpOff, 900); });
-      let t = 0, spinY = 0, visible = true;
-      new IntersectionObserver(es => visible = es[0].isIntersecting).observe(canvas);
-      function loop() {
-        requestAnimationFrame(loop);
-        if (!visible) return;
-        t += .016;
-        vx *= .94; vy *= .94; ringKick *= .95;
-        uni.uT.value = t; uni.uWarp.value += ((warping ? 1 : 0) - uni.uWarp.value) * .06;
-        spinY += vx + ringKick + .0025 + speed * .0015;
-        tilt.x = Math.max(.35, Math.min(1.45, tilt.x + vy));
-        const sc = scrollY / innerHeight;
-        group.rotation.x += (tilt.x + my * .12 - group.rotation.x) * .08;
-        group.rotation.y = spinY;
-        group.rotation.z += (tilt.z + mx * .15 - group.rotation.z) * .05;
-        group.position.y += ((lift - my * .3 + sc * 1.4) - group.position.y) * .06;
-        group.scale.setScalar(1 - Math.min(sc, 1) * .2);
-        for (const h of hooks) h(.016, t);
-        renderer.render(scene, cam);
-      }
-      if (reduce) renderer.render(scene, cam); else loop();
-    })();
-
-    /* ================= nebula (fragment-shader clouds over the hero) ================= */
-    /* NEBULA DISABLED FOR NOW — remove this comment wrapper (and the one around <canvas id="nebula">) to bring it back.
-    (function () {
-      const canvas = $('#nebula');
-      if (typeof THREE === 'undefined') { canvas.outerHTML = '<div class="neb-fallback"></div>'; return; }
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-      renderer.setPixelRatio(Math.min(1, devicePixelRatio) * .7);
-      const scene = new THREE.Scene(), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-      const u = { t: { value: 0 }, res: { value: new THREE.Vector2(1, 1) }, m: { value: new THREE.Vector2(0, 0) }, w: { value: 0 } };
-      const mat = new THREE.ShaderMaterial({
-        uniforms: u, transparent: true,
-        vertexShader: `void main(){ gl_Position = vec4(position.xy, 0., 1.); }`,
-        fragmentShader: `precision highp float;
-      uniform float t, w; uniform vec2 res, m;
-      float h(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
-      float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-        return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y); }
-      float fbm(vec2 p){ float v = 0., a = .5; mat2 r = mat2(.8,.6,-.6,.8); for(int i=0;i<5;i++){ v += a*n(p); p = r*p*2.02 + 3.1; a *= .5; } return v; }
-      void main(){
-        vec2 uv = (gl_FragCoord.xy - .5*res)/res.y; uv += m*.06; uv.y -= .2;
-        float T = t*(1. + w*6.);
-        vec2 q = vec2(fbm(uv*1.7 + T*.020), fbm(uv*1.7 + vec2(5.2,1.3) - T*.016));
-        vec2 r = vec2(fbm(uv*1.7 + 3.5*q + vec2(1.7,9.2) + T*.03), fbm(uv*1.7 + 3.5*q + vec2(8.3,2.8)));
-        float f = fbm(uv*1.7 + 3.5*r);
-        vec3 col = mix(vec3(.03,.06,.22), vec3(.22,.4,1.), clamp(f*f*2.2, 0., 1.));
-        col = mix(col, vec3(1.,.36,.62), clamp(length(q) - .45, 0., 1.)*.9);
-        col = mix(col, vec3(1.,.74,.52), clamp(r.x*r.x*1.4 - .25, 0., 1.)*.8);
-        vec2 e = uv*vec2(.6,1.25);
-        float shape = exp(-dot(e, e)*2.1);
-        float lane = smoothstep(.3, .65, fbm(uv*3.2 + r*1.5 - T*.01));
-        float a = smoothstep(.36, .95, f*1.25 + .08)*shape*mix(.3, 1., lane);
-        col += pow(f, 5.)*vec3(1.,.85,.95)*2.2*shape*lane;
-        float st = step(.997, h(floor(gl_FragCoord.xy)))*shape*(.5 + .5*sin(t*2. + h(floor(gl_FragCoord.xy*.7))*40.));
-        a = clamp(a*(1. + w*.6), 0., 1.);
-        gl_FragColor = vec4(col*a*1.25 + st, a + st);
-      }`
-      });
-      scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
-      function resize() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); renderer.getDrawingBufferSize(u.res.value); if (reduce) renderer.render(scene, cam); }
-      resize(); addEventListener('resize', resize);
-      let visible = true; new IntersectionObserver(es => visible = es[0].isIntersecting).observe(canvas);
-      let t = 20;
-      (function loop() {
-        if (!reduce) requestAnimationFrame(loop);
-        if (!visible && !reduce) return;
-        t += .016; u.t.value = t;
-        u.m.value.x += (mx - u.m.value.x) * .04; u.m.value.y += (-my - u.m.value.y) * .04;
-        u.w.value += ((warping ? 1 : 0) - u.w.value) * .05;
-        renderer.render(scene, cam);
-      })();
-    })();
-    */
 
     /* ================= hero text ================= */
     const nameEl = $('#name');
@@ -2833,7 +2557,7 @@
       const to = $('#cEmail').textContent.trim();
       const href = `mailto:${to}?subject=${encodeURIComponent('Portfolio message from ' + n)}&body=${encodeURIComponent(msg + '\n\n' + n + ' · ' + m)}`;
       st.style.color = ''; st.textContent = `Thanks, ${n}. Your email app should open with the message ready to send.`;
-      warpOn(); setTimeout(warpOff, 900);
+      Space.app.starfield.pulse(900);
       location.href = href;
     });
 
@@ -2874,12 +2598,11 @@
     (function () {
       const boot = $('#boot'); if (reduce) { boot.classList.add('done'); return; }
       let p = 0, done = false;
-      const finish = () => { if (done) return; done = true; boot.classList.add('done'); warpOn(); setTimeout(warpOff, 900); };
+      const finish = () => { if (done) return; done = true; boot.classList.add('done'); Space.app.starfield.pulse(900); };
       boot.addEventListener('click', finish);
       (function tick() { if (done) return; p = Math.min(100, p + 3 + Math.random() * 7); $('#bootPct').textContent = Math.floor(p); $('#bootLn').style.width = p + '%'; if (p < 100) setTimeout(tick, 45); else setTimeout(finish, 250); })();
     })();
   </script>
-  <script src="js/solar-system.js"></script>
 </body>
 
 </html>

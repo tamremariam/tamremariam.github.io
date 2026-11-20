@@ -1,36 +1,15 @@
 /*
- * Solar system + hyperjump transition for the hero.
+ * Solar system: the Sun and eight planets, painted procedurally (no image files).
  *
- * Pressing "Hyperdrive" flies into the galaxy, flashes through hyperspace and arrives at a
- * solar system; pressing it again flies back. Everything is procedural (no image files).
- *
- * Depends on Three.js r128 and two hooks exposed by index.html:
- *   window.__galaxy = { THREE, renderer, scene, cam, group, uni, core, hooks, render, baseZ }
- *   window.__space  = { warpOn, warpOff, reduce }
+ *   Noise2D       value noise for canvas textures
+ *   PlanetTexture paints equirectangular planet maps and Saturn's ring
+ *   Sun, Planet   one body each, with their own fade
+ *   SolarSystem   puts them together; root is a THREE.Group positioned by whoever shows it
  */
 (() => {
   'use strict';
 
-  const G = window.__galaxy, S = window.__space;
-  const button = document.getElementById('warp');
-  if (!G || !S || !button) return;
-  const { THREE } = G;
-
-  /* ------------------------------------------------------------------ helpers */
-  const clamp01 = v => Math.max(0, Math.min(1, v));
-  const seg = (t, a, b) => clamp01((t - a) / (b - a));
-  const easeIn = t => t * t * t;
-  const easeOut = t => 1 - Math.pow(1 - t, 3);
-  const bell = t => Math.sin(Math.PI * clamp01(t));
-  const lerp = (a, b, t) => a + (b - a) * t;
-
-  function glowTexture(stops, size = 128) {
-    const c = document.createElement('canvas'); c.width = c.height = size;
-    const x = c.getContext('2d'), g = x.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-    stops.forEach(([o, col]) => g.addColorStop(o, col));
-    x.fillStyle = g; x.fillRect(0, 0, size, size);
-    return new THREE.CanvasTexture(c);
-  }
+  const { clamp01, lerp, glowTexture } = Space.util;
 
   /* ------------------------------------------------------------------ Noise2D: value noise for canvas textures */
   class Noise2D {
@@ -254,6 +233,8 @@
       { name: 'Neptune', r: .17, orbit: 4.75, kind: 'smooth', colors: ['#2a46b8', '#4f78e6', '#3a5fd0'], atmosphere: '#5b7cff', spin: .85 }
     ];
 
+    static BELT_SIZE = .038; // asteroid point size at scale 1
+
     constructor() {
       this.root = new THREE.Group();
       this.root.visible = false;
@@ -274,7 +255,12 @@
         pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = (Math.random() - .5) * .08; pos[i * 3 + 2] = Math.sin(a) * r;
       }
       const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      return new THREE.Points(g, new THREE.PointsMaterial({ color: 0xc9b89c, size: .028, transparent: true, opacity: .8, depthWrite: false }));
+      return new THREE.Points(g, new THREE.PointsMaterial({ color: 0xc9b89c, size: SolarSystem.BELT_SIZE * .74, transparent: true, opacity: .8, depthWrite: false }));
+    }
+    /** scale the whole system; point sprites don't follow object scale, so the belt is resized by hand */
+    setScale(k) {
+      this.root.scale.setScalar(k);
+      this.belt.material.size = SolarSystem.BELT_SIZE * k;
     }
     update(dt, t) {
       this.sun.update(dt, t);
@@ -291,100 +277,5 @@
     }
   }
 
-  /* ------------------------------------------------------------------ HyperJump: the transition */
-  class HyperJump {
-    constructor() {
-      this.state = 'galaxy';          // 'galaxy' | 'solar'
-      this.busy = false;
-      this.solar = null;
-      this.injectStyles();
-      this.flash = Object.assign(document.createElement('div'), { className: 'hj-flash' });
-      this.caption = Object.assign(document.createElement('div'), { className: 'hj-caption' });
-      this.caption.setAttribute('aria-live', 'polite');
-      document.body.append(this.flash);
-      document.querySelector('.hero')?.append(this.caption);
-      this.hint = document.querySelector('.drag-hint');
-
-      button.addEventListener('click', () => this.jump());
-      G.hooks.push((dt, t) => this.frame(dt, t));
-    }
-
-    injectStyles() {
-      const css = `
-        .hj-flash{position:fixed;inset:0;z-index:55;pointer-events:none;opacity:0;
-          background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.95),rgba(190,215,255,.6) 25%,rgba(120,150,255,.15) 55%,transparent 75%)}
-        .hj-caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap} /* screen readers only, no visible label */
-        @media (prefers-reduced-motion:reduce){.hj-flash{display:none}}`;
-      document.head.append(Object.assign(document.createElement('style'), { textContent: css }));
-    }
-
-    ensureSolar() {
-      if (this.solar) return this.solar;
-      this.solar = new SolarSystem();
-      G.scene.add(this.solar.root);
-      return this.solar;
-    }
-
-    /** keep the solar system on the same tilt/drag/scroll transform as the galaxy */
-    frame(dt, t) {
-      if (!this.solar || !this.solar.root.visible) return;
-      const r = this.solar.root, g = G.group;
-      r.position.copy(g.position); r.rotation.copy(g.rotation);
-      r.position.y += .35;            // sit a little higher so the planets clear the name
-      r.scale.copy(g.scale).multiplyScalar(.74);
-      this.solar.update(dt, t);
-    }
-
-    setGalaxyFade(f) {
-      G.uni.uFade.value = f;
-      G.core.material.opacity = f;
-      G.group.visible = f > .002;
-    }
-
-    jump() {
-      if (this.busy) return;
-      const solar = this.ensureSolar();
-      const toSolar = this.state === 'galaxy';
-      const cam = G.cam, baseZ = G.baseZ(), baseFov = 40;
-      const fadeOut = toSolar ? f => this.setGalaxyFade(f) : f => solar.setFade(f);
-      const fadeIn = toSolar ? f => solar.setFade(f) : f => this.setGalaxyFade(f);
-      this.caption.textContent = toSolar ? 'Jumping to the Solar System' : 'Returning to the galaxy';
-
-      const finish = () => {
-        fadeOut(0); fadeIn(1);
-        cam.position.z = baseZ; cam.fov = baseFov; cam.updateProjectionMatrix();
-        this.flash.style.opacity = 0; this.caption.style.opacity = 0;
-        this.state = toSolar ? 'solar' : 'galaxy';
-        button.textContent = toSolar ? 'Back to galaxy' : 'Hyperdrive';
-        if (this.hint) this.hint.textContent = toSolar ? 'Drag to orbit · Hyperdrive to return' : 'Drag the galaxy · hold Space to warp';
-        this.busy = false;
-        G.render();
-      };
-
-      if (S.reduce) { finish(); return; }
-
-      this.busy = true;
-      S.warpOn();
-      const D = 2600, t0 = performance.now();
-      const step = now => {
-        const p = Math.min(1, (now - t0) / D);
-        // 0 → .48: dive into the current scene while it dissolves
-        const out = easeIn(seg(p, 0, .48));
-        fadeOut(1 - out);
-        // .5 → 1: the new scene rushes in from far away and settles
-        const inn = easeOut(seg(p, .5, 1));
-        fadeIn(inn);
-        if (p < .5) { cam.position.z = lerp(baseZ, baseZ * .22, out); cam.fov = lerp(baseFov, 78, out); }
-        else { cam.position.z = lerp(baseZ * 2.6, baseZ, inn); cam.fov = lerp(78, baseFov, inn); }
-        cam.updateProjectionMatrix();
-        this.flash.style.opacity = (bell(seg(p, .36, .68)) * .95).toFixed(3);
-        this.caption.style.opacity = (bell(seg(p, .05, .95)) * 1.2).toFixed(3);
-        if (p > .72) S.warpOff();
-        if (p < 1) requestAnimationFrame(step); else finish();
-      };
-      requestAnimationFrame(step);
-    }
-  }
-
-  new HyperJump();
+  Space.SolarSystem = SolarSystem;
 })();
