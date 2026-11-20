@@ -2603,7 +2603,7 @@
 			const to = $('#cEmail').textContent.trim();
 			const href = `mailto:${to}?subject=${encodeURIComponent('Portfolio message from ' + n)}&body=${encodeURIComponent(msg + '\n\n' + n + ' · ' + m)}`;
 			st.style.color = ''; st.textContent = `Thanks, ${n}. Your email app should open with the message ready to send.`;
-			Space.app.starfield.pulse(900);
+			Space.app?.starfield.pulse(900);
 			location.href = href;
 		});
 
@@ -2644,7 +2644,7 @@
 		(function () {
 			const boot = $('#boot'); if (reduce) { boot.classList.add('done'); return; }
 			let p = 0, done = false;
-			const finish = () => { if (done) return; done = true; boot.classList.add('done'); Space.app.starfield.pulse(900); };
+			const finish = () => { if (done) return; done = true; boot.classList.add('done'); Space.app?.starfield.pulse(900); };
 			boot.addEventListener('click', finish);
 			(function tick() { if (done) return; p = Math.min(100, p + 3 + Math.random() * 7); $('#bootPct').textContent = Math.floor(p); $('#bootLn').style.width = p + '%'; if (p < 100) setTimeout(tick, 45); else setTimeout(finish, 250); })();
 		})();

@@ -236,17 +236,26 @@
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
       geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
+      const field = new Float32Array(N); field.fill(1, 0, NF);   // 1 = loose 3D field star around the disk
+      geo.setAttribute('aField', new THREE.BufferAttribute(field, 1));
       const stars = new THREE.Points(geo, new THREE.ShaderMaterial({
         uniforms: this.uniforms, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
         defines: this.renderer.capabilities.maxVertexTextures > 0 ? { DUST: 1 } : {},
-        vertexShader: `uniform float uSize, uWarp, uFade, uH; uniform sampler2D uMap; attribute float aSize; varying vec3 vC;
+        vertexShader: `uniform float uSize, uWarp, uFade, uH; uniform sampler2D uMap; attribute float aSize, aField; varying vec3 vC;
           void main(){
             vec4 mv = modelViewMatrix * vec4(position, 1.);
             gl_Position = projectionMatrix * mv;
             gl_PointSize = min(uSize * aSize * (1. + uWarp * .6) / max(-mv.z, .001), uSize * .6); // capped: no giant blobs up close
             vC = color * (1. + uWarp * .5) * uFade;
+            vC *= 1. - uWarp * aField;   // field stars would hang frozen while the background streaks past: fade them out in warp
             #ifdef DUST // stars in the disk plane sit inside the dust: dim and redden them by the baked dust coverage
-              float d = texture2DLod(uMap, vec2(position.x, -position.z) / (2. * uH) + .5, 2.).a * smoothstep(.3, .04, abs(position.y));
+              vec2 duv = vec2(position.x, -position.z) / (2. * uH) + .5;
+              #if __VERSION__ >= 300
+                float d = textureLod(uMap, duv, 2.).a;
+              #else
+                float d = texture2DLod(uMap, duv, 2.).a;
+              #endif
+              d *= smoothstep(.3, .04, abs(position.y));
               vC *= mix(vec3(1.), vec3(.6, .38, .25), d * .8);
             #endif
           }`,
